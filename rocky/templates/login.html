@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Sign In</h1>
+  {% if current_user.is_authenticated %}
+    <h2>Hi, {{ current_user.firstname }}!</h2>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+  {% else %}
+    <h2>I don't know you!</h2>
+    <p><button type="button" class="btn btn-info btn-lg" onclick="location.href='{{ url_for('oauth_authorize', provider='facebook') }}';">
+      <span class="fa fa-facebook" aria-hidden="true"></span> Login with Facebook
+    </button></p>
+  {% endif %}
+{% endblock %}
