@@ -32,7 +32,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
 
-from rocky import views, models, api
+from rocky import views, models, api, assistants
 
 @app.before_request
 def before_request():

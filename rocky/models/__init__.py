@@ -57,4 +57,6 @@ class CRUDMixin(NoIDMixin):
         """Returns an instance by ID or raises a 404 error"""
         return cls.query.get_or_404(id)
 
+from rocky.models.cast import Cast
 from rocky.models.user import User
+from rocky.models.venue import Venue

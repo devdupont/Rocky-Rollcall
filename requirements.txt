@@ -11,3 +11,4 @@ marshmallow-sqlalchemy~=0.13
 psycopg2~=2.7
 rauth~=0.7
 shapely~=1.6
+SQLAlchemy==1.2.0b3
