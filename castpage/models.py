@@ -1,26 +1,28 @@
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 
 class Cast(models.Model):
-    name = models.CharField(max_length=200)
-    
-    
-    
-    # author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    # title = models.CharField(max_length=200)
-    # text = models.TextField()
-    # created_date = models.DateTimeField(
-    #         default=timezone.now)
-    # published_date = models.DateTimeField(
-    #         blank=True, null=True)
+    """
+    Basic Rocky Horror cast info
+    """
 
-    # def publish(self):
-    #     self.published_date = timezone.now()
-    #     self.save()
+    name = models.CharField(max_length=128, unique=True)
+    slug = models.SlugField(max_length=200, blank=True)
+    description = models.TextField()
+    # logo = models.ImageField()
+    external_url = models.URLField()
 
-    # def approved_comments(self):
-    #     return self.comments.filter(approved_comment=True)
+    # Social Links
+    facebook_url = models.URLField()
+    twitter_user = models.CharField(max_length=15)
+    instagram_user = models.CharField(max_length=30)
 
-    # def __str__(self):
-    #     return self.title
+    def save(self, *args, **kwargs):
+        # Always make the slug match the name
+        self.slug = slugify(self.name)
+        super(Cast, self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.name
