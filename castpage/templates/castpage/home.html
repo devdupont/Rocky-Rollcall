@@ -5,4 +5,19 @@
         <h1>{{ cast.name }}</h1>
         <p>{{ cast.description }}</p>
     </div>
+    {% for section in cast.page_sections.all %}
+    <div>
+        {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'cast_section_edit' slug=cast.slug pk=section.pk %}" role="button"><i class="fas fa-edit"></i></a>
+            <a class="btn btn-danger" href="{% url 'cast_section_remove' slug=cast.slug pk=section.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
+        {% endif %}
+        <h3>{{ section.title }}</h3>
+        <p>{{ section.text }}</p>
+    </div>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <div>
+        <a href="{% url 'cast_section_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
+    </div>
+    {% endif %}
 {% endblock %}
