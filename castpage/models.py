@@ -16,6 +16,8 @@ class Cast(models.Model):
     # logo = models.ImageField()
     created_date = models.DateTimeField(default=timezone.now)
 
+    managers = models.ManyToManyField('auth.User')
+
     # Social Links
     external_url = models.URLField(**nulls)
     facebook_url = models.URLField(**nulls)
@@ -26,6 +28,12 @@ class Cast(models.Model):
         # Always make the slug match the name
         self.slug = text.slugify(self.name)
         super(Cast, self).save(*args, **kwargs)
+
+    def is_manager(self, pk: int) -> bool:
+        """
+        Returns if a user manages a cast by primary key
+        """
+        return bool(self.managers.filter(pk=pk))
 
     def __str__(self) -> str:
         return self.name
@@ -39,6 +47,9 @@ class PageSection(models.Model):
     title = models.CharField(max_length=128)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['created_date']
 
     def __str__(self) -> str:
         return self.title

@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="page-header">
-            <h1><a href="/">Rocky Rollcall</a> - <a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></h1>
+            <h1><a href="/">Rocky Rollcall</a>{% if cast %} - <a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a>{% endif %}</h1>
         </div>
         <div class="content container">
             <div class="row">
