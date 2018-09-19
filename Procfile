@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn rocky.wsgi --log-file -
+web: gunicorn rocky.wsgi --log-file - --bind=8000
