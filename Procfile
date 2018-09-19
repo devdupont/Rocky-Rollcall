@@ -1,0 +1,1 @@
+web: gunicorn rocky.wsgi --log-file -
