@@ -25,7 +25,7 @@ SECRET_KEY = '^wiyhp(_)129oa-0ri*$q7cs^ua#b094om#$*_ik-y0k1ggp75'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rockyrollcall.herokuapp.com']
 
 
 # Application definition
