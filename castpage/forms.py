@@ -1,3 +1,7 @@
+"""
+Cast page form classes
+"""
+
 from django import forms
 from .models import PageSection
 

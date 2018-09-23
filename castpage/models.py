@@ -1,7 +1,9 @@
+"""
+Models to build and manage Rocky casts and their home page
+"""
+
 from django.db import models
 from django.utils import text, timezone
-
-# Create your models here.
 
 nulls = {'default': None, 'blank': True}
 
@@ -25,6 +27,9 @@ class Cast(models.Model):
     instagram_user = models.CharField(max_length=30, **nulls)
 
     def save(self, *args, **kwargs):
+        """
+        Add computed values and save model
+        """
         # Always make the slug match the name
         self.slug = text.slugify(self.name)
         super(Cast, self).save(*args, **kwargs)
@@ -33,6 +38,7 @@ class Cast(models.Model):
         """
         Returns if a user manages a cast by primary key
         """
+        # pylint: disable=E1101
         return bool(self.managers.filter(pk=pk))
 
     def __str__(self) -> str:
