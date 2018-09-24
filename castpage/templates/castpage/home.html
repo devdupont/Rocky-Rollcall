@@ -1,29 +1,43 @@
-{% extends 'castpage/base.html' %}
+{% extends 'base.html' %}
+
+{% block headers %}
+    {% include 'castpage/include/headers.html' %}
+{% endblock %}
+
+{% block topbar %}
+    {% include 'castpage/include/topbar.html' %}
+{% endblock %}
 
 {% block content %}
-    <div class="title-card">
-        <h1>{{ cast.name }}</h1>
-        <p>{{ cast.description }}</p>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="title-card">
+                    <h1>{{ cast.name }}</h1>
+                    <p>{{ cast.description }}</p>
+                </div>
+                <div class="social-card">
+                    {% if cast.external_url %}<a class="btn btn-primary" href="{{ cast.external_url }}" role="button"><i class="fas fa-home"></i></a>{% endif %}
+                    {% if cast.facebook_url %}<a class="btn btn-primary" href="{{ cast.facebook_url }}" role="button"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                    {% if cast.twitter_user %}<a class="btn btn-primary" href="https://twitter.com/{{ cast.twitter_user }}" role="button"><i class="fab fa-twitter"></i></a>{% endif %}
+                    {% if cast.instagram_user %}<a class="btn btn-primary" href="https://instagram.com/{{ cast.instagram_user }}" role="button"><i class="fab fa-instagram"></i></a>{% endif %}
+                </div>
+                {% for section in cast.page_sections.all %}
+                <div>
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'cast_section_edit' slug=cast.slug pk=section.pk %}" role="button"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" href="{% url 'cast_section_remove' slug=cast.slug pk=section.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
+                    {% endif %}
+                    <h3>{{ section.title }}</h3>
+                    <p>{{ section.text }}</p>
+                </div>
+                {% endfor %}
+                {% if user.is_authenticated %}
+                <div>
+                    <a href="{% url 'cast_section_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <div class="social-card">
-        {% if cast.external_url %}<a class="btn btn-primary" href="{{ cast.external_url }}" role="button"><i class="fas fa-home"></i></a>{% endif %}
-        {% if cast.facebook_url %}<a class="btn btn-primary" href="{{ cast.facebook_url }}" role="button"><i class="fab fa-facebook-f"></i></a>{% endif %}
-        {% if cast.twitter_user %}<a class="btn btn-primary" href="https://twitter.com/{{ cast.twitter_user }}" role="button"><i class="fab fa-twitter"></i></a>{% endif %}
-        {% if cast.instagram_user %}<a class="btn btn-primary" href="https://instagram.com/{{ cast.instagram_user }}" role="button"><i class="fab fa-instagram"></i></a>{% endif %}
-    </div>
-    {% for section in cast.page_sections.all %}
-    <div>
-        {% if user.is_authenticated %}
-            <a class="btn btn-primary" href="{% url 'cast_section_edit' slug=cast.slug pk=section.pk %}" role="button"><i class="fas fa-edit"></i></a>
-            <a class="btn btn-danger" href="{% url 'cast_section_remove' slug=cast.slug pk=section.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
-        {% endif %}
-        <h3>{{ section.title }}</h3>
-        <p>{{ section.text }}</p>
-    </div>
-    {% endfor %}
-    {% if user.is_authenticated %}
-    <div>
-        <a href="{% url 'cast_section_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
-    </div>
-    {% endif %}
 {% endblock %}
