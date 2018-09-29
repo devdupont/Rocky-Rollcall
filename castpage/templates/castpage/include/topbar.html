@@ -1,3 +1,4 @@
 <div class="page-header">
     <h1><a href="/">Rocky Rollcall</a>{% if cast %} - <a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a>{% endif %}</h1>
+    {% include 'include/loginout.html' %}
 </div>
