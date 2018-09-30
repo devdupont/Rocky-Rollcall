@@ -46,7 +46,7 @@ class Cast(models.Model):
 
 class PageSection(models.Model):
     """
-    Addition content sections beyond the built-ins
+    Additional content sections beyond the built-ins
     """
 
     cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='page_sections')
@@ -58,4 +58,4 @@ class PageSection(models.Model):
         ordering = ['created_date']
 
     def __str__(self) -> str:
-        return self.title
+        return f"{self.cast.name} | {self.title}"
