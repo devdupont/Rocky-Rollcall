@@ -12,9 +12,16 @@ class Profile(models.Model):
     Profile info to add on top of the auth.User model
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_confirmed = models.BooleanField(default=False)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+
+    def save_from_form(self, form: 'SignUpForm'):
+        """
+        Assign profile attrs from new user form
+        """
+        self.birth_date = form.cleaned_data.get('birth_date')
 
     def __str__(self):
         return self.user.username #pylint: disable=E1101
