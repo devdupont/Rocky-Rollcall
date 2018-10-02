@@ -10,6 +10,12 @@ from django.template.loader import render_to_string
 from .forms import SignUpForm
 from .tokens import account_activation_token
 
+def settings(request):
+    """
+    Renders user settings page
+    """
+    return render(request, 'userprofile/settings.html')
+
 ACTIVATE_SUBJECT = 'Activate Your Rocky Rollcall Account'
 
 def signup(request):
@@ -53,7 +59,7 @@ def activate(request, pk, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('landing_page')
+        return redirect('user_settings')
     else:
         return render(request, 'registration/activation_invalid.html')
 

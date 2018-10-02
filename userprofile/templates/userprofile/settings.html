@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Profile settings for {{ user.username }}</h1>
+    <h2>Account management</h2>
+    <ul>
+        <li><a href="{% url 'password_change' %}">Change your password</a></li>
+        <li><a href="">Delete your account</a></li>
+    </ul>
+</div>
+{% endblock %}

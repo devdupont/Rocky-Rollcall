@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
 
-{% block headers %}
-    <title>Rocky Rollcall - Login</title>
-{% endblock %}
-
 {% block content %}
     <div class="content container">
         <div class="row">
@@ -28,6 +24,7 @@
                     <input type="submit" value="login" />
                     <input type="hidden" name="next" value="{{ next }}" />
                 </form>
+                <p><a href="{% url 'password_reset' %}">Forget your password?</a></p>
             </div>
         </div>
     </div>
