@@ -3,5 +3,5 @@ Hi {{ user.username }},
 
 Please click on the link below to confirm your registration:
 
-http://{{ domain }}{% url 'activate' pk=pk token=token %}
+http://{{ domain }}{% url 'user_activate' pk=pk token=token %}
 {% endautoescape %}

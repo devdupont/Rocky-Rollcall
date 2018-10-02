@@ -7,7 +7,8 @@ from . import views
 
 urlpatterns = [
     path('settings', views.settings, name='user_settings'),
-    path('signup', views.signup, name='signup'),
-    path('activation_sent', views.activation_sent, name='activation_sent'),
-    path('activate/<int:pk>/<slug:token>', views.activate, name='activate'),
+    path('signup', views.signup, name='user_signup'),
+    path('activation_sent', views.activation_sent, name='user_activation_sent'),
+    path('activate/<int:pk>/<slug:token>', views.activate, name='user_activate'),
+    path('delete', views.delete, name='user_delete'),
 ]

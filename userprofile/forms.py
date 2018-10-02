@@ -16,3 +16,7 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'birth_date', 'password1', 'password2',)
+
+class DeleteUserForm(forms.Form):
+
+    username = forms.CharField(max_length=150, help_text='Type your username to confirm deletion')

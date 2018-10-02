@@ -18,7 +18,7 @@ class Cast(models.Model):
     # logo = models.ImageField()
     created_date = models.DateTimeField(default=timezone.now)
 
-    managers = models.ManyToManyField('auth.User')
+    managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')
 
     # Social Links
     external_url = models.URLField(**nulls)

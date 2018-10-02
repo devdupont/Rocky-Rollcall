@@ -2,14 +2,17 @@
 View logic for user profiles and management
 """
 
-from django.contrib.auth import login
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from .forms import SignUpForm
+from .forms import DeleteUserForm, SignUpForm
 from .tokens import account_activation_token
 
+@login_required
 def settings(request):
     """
     Renders user settings page
@@ -41,7 +44,7 @@ def signup(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(ACTIVATE_SUBJECT, message)
-            return redirect('activation_sent')
+            return redirect('user_activation_sent')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -68,3 +71,23 @@ def activation_sent(request):
     Renders activation email sent page
     """
     return render(request, 'registration/activation_sent.html')
+
+@login_required
+def delete(request):
+    """
+    Delete a user account after verification
+    """
+    user = request.user
+    if request.method == 'POST':
+        form = DeleteUserForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data.get('username') == user.username:
+                logout(request)
+                user.delete()
+                messages.success(request, 'User successfully deleted your account')
+                return redirect('landing_page')
+            else:
+                messages.error(request, 'Your username does not match')
+    else:
+        form = DeleteUserForm()
+    return render(request, 'registration/delete.html', {'form': form})

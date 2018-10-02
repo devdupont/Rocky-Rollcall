@@ -1,7 +1,7 @@
 <div>
     {% if user.is_authenticated %}
-    <a>{{ user.username }}</a> | <a href="{% url 'logout' %}">Log Out</a>
+    <a href="{% url 'user_settings' %}">{{ user.username }}</a> | <a href="{% url 'logout' %}">Log Out</a>
     {% else %}
-    <a href="{% url 'signup' %}">Create Account</a> | <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'user_signup' %}">Create Account</a> | <a href="{% url 'login' %}">Log In</a>
     {% endif %}
 </div>
