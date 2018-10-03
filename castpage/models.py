@@ -34,12 +34,12 @@ class Cast(models.Model):
         self.slug = text.slugify(self.name)
         super(Cast, self).save(*args, **kwargs)
 
-    def is_manager(self, pk: int) -> bool:
+    def is_manager(self, user) -> bool:
         """
         Returns if a user manages a cast by primary key
         """
         # pylint: disable=E1101
-        return bool(self.managers.filter(pk=pk))
+        return not user.is_anonymous and self.managers.filter(pk=user.profile.pk)
 
     def __str__(self) -> str:
         return self.name

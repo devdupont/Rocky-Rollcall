@@ -19,7 +19,7 @@
                     <div class="section">
                         <div class="section-title">
                             <h3>{{ section.title }}</h3>
-                            {% if user.is_authenticated %}
+                            {% if show_management %}
                                 <a class="btn btn-primary" href="{% url 'cast_section_edit' slug=cast.slug pk=section.pk %}" role="button"><i class="fas fa-edit"></i></a>
                                 <a class="btn btn-danger" href="{% url 'cast_section_remove' slug=cast.slug pk=section.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
                             {% endif %}
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    {% if user.is_authenticated %}
+                    {% if show_management %}
                     <div>
                         <a href="{% url 'cast_section_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
                     </div>
