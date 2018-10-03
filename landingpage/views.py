@@ -1,9 +1,11 @@
 from django.shortcuts import render
-
-# Create your views here.
+from castpage.models import Cast
 
 def home(request):
     """
     Renders the landing page
     """
-    return render(request, 'landingpage/landingpage.html')
+    # pylint: disable=E1101
+    return render(request, 'landingpage/landingpage.html', {
+        'casts': Cast.objects.all()
+    })

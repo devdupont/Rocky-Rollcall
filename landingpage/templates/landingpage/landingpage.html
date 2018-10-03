@@ -10,5 +10,11 @@
 <div class="content container">
     <h1>Welcome to Rocky Rollcall!</h1>
     <p>Find your nearest cast or create your cast's about page</p>
+    <h2>Available Casts</h2>
+    <ul>
+        {% for cast in casts %}
+        <li><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

@@ -1,0 +1,10 @@
+<div>
+    <h2>Member Casts</h2>
+    <ul>
+        {% for cast in user.profile.managed_casts.all %}
+        <li><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></li>
+        {% endfor %}
+        <li>+ <a href="{% url 'cast_new' %}">Create new cast</a></li>
+    </ul>
+
+</div>
