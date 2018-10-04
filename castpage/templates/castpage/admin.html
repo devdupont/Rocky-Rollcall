@@ -1,0 +1,8 @@
+{% extends 'castpage/base.html' %}
+
+{% block content %}
+<div>
+    <h1>{{ cast.name }} Admin</h1>
+    <p><a href="{% url 'cast_admin_edit' slug=cast.slug %}">Edit cast info</a></p>
+</div>
+{% endblock %}

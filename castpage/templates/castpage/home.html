@@ -6,6 +6,7 @@
             <div class="col-md-8">
                 <div class="title-card">
                     <h1>{{ cast.name }}</h1>
+                    <a class="btn btn-primary" href="{% url 'cast_admin' slug=cast.slug %}" role="button"><i class="fas fa-cog"></i></a>
                     <p>{{ cast.description }}</p>
                 </div>
                 <div class="social-card">

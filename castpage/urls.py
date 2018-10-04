@@ -11,4 +11,6 @@ urlpatterns = [
     path('<slug:slug>/section/new/', views.cast_section_new, name='cast_section_new'),
     path('<slug:slug>/section/<int:pk>/edit/', views.cast_section_edit, name='cast_section_edit'),
     path('<slug:slug>/section/<int:pk>/remove/', views.cast_section_remove, name='cast_section_remove'),
+    path('<slug:slug>/admin/', views.cast_admin, name='cast_admin'),
+    path('<slug:slug>/admin/edit', views.cast_admin_edit, name='cast_admin_edit'),
 ]

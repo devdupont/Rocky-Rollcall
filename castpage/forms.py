@@ -5,7 +5,7 @@ Cast page form classes
 from django import forms
 from .models import Cast, PageSection
 
-class NewCastForm(forms.ModelForm):
+class CastForm(forms.ModelForm):
 
     class Meta:
         model = Cast
