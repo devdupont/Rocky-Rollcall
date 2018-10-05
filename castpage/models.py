@@ -7,6 +7,12 @@ from django.utils import text, timezone
 
 nulls = {'default': None, 'blank': True}
 
+def cast_logo(instance, filename: str) -> str:
+    """
+    Generate cast logo filename from cast slug
+    """
+    return f"casts/{instance.slug}/logo.{filename.split('.')[-1]}"
+
 class Cast(models.Model):
     """
     Basic Rocky Horror cast info
@@ -15,7 +21,7 @@ class Cast(models.Model):
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = models.TextField()
-    # logo = models.ImageField()
+    logo = models.ImageField(blank=True, upload_to=cast_logo, default='../blank_logo.jpg')
     created_date = models.DateTimeField(default=timezone.now)
 
     managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')

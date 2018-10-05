@@ -10,7 +10,7 @@ class CastForm(forms.ModelForm):
     class Meta:
         model = Cast
         fields = (
-            'name', 'description', 
+            'name', 'description', 'logo',
             'external_url', 'facebook_url', 'twitter_user', 'instagram_user',
         )
         help_texts = {

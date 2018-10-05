@@ -15,7 +15,7 @@ def cast_new(request):
     Create a new cast
     """
     if request.method == 'POST':
-        form = CastForm(request.POST)
+        form = CastForm(request.POST, request.FILES)
         if form.is_valid():
             cast = form.save()
             cast.managers.add(request.user.profile)
