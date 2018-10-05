@@ -2,11 +2,14 @@
 View logic for user profiles and management
 """
 
+from os import environ
+
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from .forms import DeleteUserForm, SignUpForm
@@ -25,6 +28,8 @@ def signup(request):
     """
     Create and validate a new user
     """
+    if environ.get('DISABLE_SIGNUP'):
+        return HttpResponseForbidden()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
