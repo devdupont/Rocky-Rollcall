@@ -112,4 +112,7 @@ def cast_admin_edit(request, slug: str):
             return redirect('cast_admin', slug=cast.slug)
     else:
         form = CastForm(instance=cast)
-    return render(request, 'castpage/cast_edit.html', {'form': form})
+    return render(request, 'castpage/cast_edit.html', {
+        'cast': cast,
+        'form': form,
+    })
