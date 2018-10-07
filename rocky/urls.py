@@ -27,4 +27,6 @@ urlpatterns = [
     url('user/', include('userprofile.urls')),
 ]
 
-urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# If running locally:
+if settings.MEDIA_URL:
+    urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

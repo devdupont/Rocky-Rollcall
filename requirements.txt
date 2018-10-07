@@ -1,4 +1,6 @@
+boto3~=1.9
 django>=2.1.2
+django_storages~=1.7
 dj_database_url~=0.5
 gunicorn~=19.9
 pillow~=5.3

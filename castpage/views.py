@@ -105,7 +105,7 @@ def cast_admin_edit(request, slug: str):
     if not cast.is_manager(request.user):
         return HttpResponseForbidden()
     if request.method == 'POST':
-        form = CastForm(request.POST, instance=cast)
+        form = CastForm(request.POST, request.FILES, instance=cast)
         if form.is_valid():
             cast = form.save()
             messages.success(request, 'Cast info has been updated')
