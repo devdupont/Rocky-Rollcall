@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block headers %}
+    {{ block.super }}
+    {% include 'include/datepicker_headers.html' %}
+{% endblock %}
+
 {% block content %}
     <div class="content container">
         <div class="row">
