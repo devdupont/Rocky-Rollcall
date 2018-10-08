@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block headers %}
+<title>{{ form_title }}</title>
+{% include 'include/datepicker/today.html' %}
+<!-- {% include 'include/timepicker/15min.html' %} -->
+{% endblock %}
+
+{% block content %}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{{ form_title }}</h1>
+                <form method="POST" class="section-form">{% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="save btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

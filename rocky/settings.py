@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'castpage',
     'landingpage',
     'userprofile',
+    'events',
 ]
 
 MIDDLEWARE = [

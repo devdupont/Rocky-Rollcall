@@ -25,6 +25,7 @@ urlpatterns = [
     url('', include('landingpage.urls')),
     url('cast/', include('castpage.urls')),
     url('user/', include('userprofile.urls')),
+    url('events/', include('events.urls')),
 ]
 
 # If running locally:
