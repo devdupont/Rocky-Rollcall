@@ -17,9 +17,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, static, url
 from django.contrib import admin
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import path
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    path('favicon.ico', RedirectView.as_view(
+        url=staticfiles_storage.url('favicon.ico')
+    ), name='favicon'),
     path('admin/', admin.site.urls),
     path('user/', include('django.contrib.auth.urls')),
     url('', include('landingpage.urls')),
