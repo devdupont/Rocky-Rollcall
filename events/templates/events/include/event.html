@@ -1,5 +1,9 @@
 <div>
     <h4>{{ event.name }}</h4>
+    {% if show_management %}
+        <a class="btn btn-primary" href="{% url 'event_edit' pk=event.pk %}" role="button"><i class="fas fa-edit"></i></a>
+        <a class="btn btn-danger" href="{% url 'event_delete' pk=event.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
+    {% endif %}
     <div>{{ event.date }} - {{ event.start_time }}</div>
     <div>{{ event.venue }}</div>
     <p>{{ event.description }}</p>

@@ -3,6 +3,9 @@
 {% block content %}
 <div>
     <h1>{{ cast.name }} Admin</h1>
-    <p><a href="{% url 'cast_admin_edit' slug=cast.slug %}">Edit cast info</a></p>
+    <ul>
+        <li><a href="{% url 'cast_admin_edit' slug=cast.slug %}">Edit cast info</a></li>
+        <li><a href="{% url 'event_new' slug=cast.slug %}">Create a new event</a></li>
+    </ul>
 </div>
 {% endblock %}

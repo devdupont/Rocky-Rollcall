@@ -1,7 +1,13 @@
 <div>
     <ul>
     {% for event in events %}
-        <li>{% include 'events/include/event.html' with event=event %}</li>
+        <li>
+        {% if tinylist %}
+            {% include 'events/include/event_short.html' with event=event %}
+        {% else %}
+            {% include 'events/include/event.html' with event=event %}
+        {% endif %}
+        </li>
     {% empty %}
         <li>No events yet.</li>
     {% endfor %}

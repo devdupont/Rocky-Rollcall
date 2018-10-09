@@ -33,7 +33,8 @@ def cast_home(request, slug: str):
     cast = get_object_or_404(Cast, slug=slug)
     return render(request, 'castpage/home.html', {
         'cast': cast,
-        'show_management': cast.is_manager(request.user)
+        'show_management': cast.is_manager(request.user),
+        'tinylist': True,
     })
 
 class CastEvents(EventListView):
@@ -56,7 +57,9 @@ class CastEvents(EventListView):
         Return render context
         """
         context = super().get_context_data(**kwargs)
-        context['cast'] = get_object_or_404(Cast, slug=self.kwargs['slug'])
+        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
+        context['cast'] = cast
+        context['show_management'] = cast.is_manager(self.request.user),
         return context
 
 @login_required

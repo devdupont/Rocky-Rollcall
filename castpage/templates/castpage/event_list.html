@@ -5,6 +5,11 @@
         <div class="row">
             <div class="col-md-8">
                 <h1>Events</h1>
+                {% if show_management %}
+                <div>
+                    <a href="{% url 'event_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
+                </div>
+                {% endif %}
                 {% include 'events/include/event_list.html' with events=object_list %}
                 {% if is_paginated %}{% include 'events/include/pagination.html' %}{% endif %}
             </div>

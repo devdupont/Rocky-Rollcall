@@ -23,7 +23,7 @@
                 <div class="events-card">
                     <h3>Upcoming Events</h3>
                     {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
-                    <a href="{% url 'cast_events' slug=cast.slug %}">See more</a>
+                    <a href="{% url 'cast_events' slug=cast.slug %}">Show all upcoming events</a>
                 </div>
                 <div class="sections">
                     {% for section in cast.page_sections.all %}
