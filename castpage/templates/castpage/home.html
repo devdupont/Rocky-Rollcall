@@ -20,6 +20,11 @@
                     {% if cast.twitter_user %}<a class="btn btn-primary" href="https://twitter.com/{{ cast.twitter_user }}" role="button"><i class="fab fa-twitter"></i></a>{% endif %}
                     {% if cast.instagram_user %}<a class="btn btn-primary" href="https://instagram.com/{{ cast.instagram_user }}" role="button"><i class="fab fa-instagram"></i></a>{% endif %}
                 </div>
+                <div class="events-card">
+                    <h3>Upcoming Events</h3>
+                    {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
+                    <a href="{% url 'cast_events' slug=cast.slug %}">See more</a>
+                </div>
                 <div class="sections">
                     {% for section in cast.page_sections.all %}
                     <div class="section">

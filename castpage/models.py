@@ -2,6 +2,7 @@
 Models to build and manage Rocky casts and their home page
 """
 
+from datetime import date
 from django.db import models
 from django.utils import text, timezone
 
@@ -46,6 +47,21 @@ class Cast(models.Model):
         """
         # pylint: disable=E1101
         return not user.is_anonymous and self.managers.filter(pk=user.profile.pk)
+
+    @property
+    def future_events(self) -> ['Event']:
+        """
+        Returns cast events happening today or later
+        """
+        # pylint: disable=E1101
+        return self.events.filter(cast=self, date__gte=date.today())
+
+    @property
+    def upcoming_events(self) -> ['Event']:
+        """
+        Returns the first few future events
+        """
+        return self.future_events[:3]
 
     def __str__(self) -> str:
         return self.name

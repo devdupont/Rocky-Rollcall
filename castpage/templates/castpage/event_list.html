@@ -1,0 +1,13 @@
+{% extends 'castpage/base.html' %}
+
+{% block content %}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Events</h1>
+                {% include 'events/include/event_list.html' with events=object_list %}
+                {% if is_paginated %}{% include 'events/include/pagination.html' %}{% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

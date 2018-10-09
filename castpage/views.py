@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from events.views import EventListView
 from .forms import CastForm, PageSectionForm
 from .models import Cast, PageSection
 
@@ -34,6 +35,29 @@ def cast_home(request, slug: str):
         'cast': cast,
         'show_management': cast.is_manager(request.user)
     })
+
+class CastEvents(EventListView):
+    """
+    Pagination view for future cast events
+    """
+
+    template_name = 'castpage/event_list.html'
+    paginate_by=2
+
+    def get_queryset(self) -> ['Event']:
+        """
+        Filter queryset based on cast events
+        """
+        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
+        return cast.future_events
+
+    def get_context_data(self, **kwargs) -> dict:
+        """
+        Return render context
+        """
+        context = super().get_context_data(**kwargs)
+        context['cast'] = get_object_or_404(Cast, slug=self.kwargs['slug'])
+        return context
 
 @login_required
 def cast_section_new(request, slug: str):

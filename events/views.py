@@ -2,10 +2,12 @@
 View logic for calendar event management
 """
 
+from datetime import date
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic.list import ListView
 from castpage.models import Cast
 from .forms import EventForm
 from .models import Event
@@ -67,3 +69,14 @@ def event_delete(request, pk: int):
     event.delete()
     messages.success(request, f'"{event_name}" has been deleted')
     return redirect('cast_home', slug=slug)
+
+class EventListView(ListView):
+    """
+    Pagination view for future events
+    """
+
+    model = Event
+    paginate_by = 2
+    context_object_name = 'events'
+    # pylint: disable=E1101
+    queryset = Event.objects.filter(date__gte=date.today())

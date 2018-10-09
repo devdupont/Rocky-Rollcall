@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Events</h1>
+{% include 'events/include/event_list.html' with events=object_list %}
+{% if is_paginated %}{% include 'events/include/pagination.html' %}{% endif %}
+{% endblock %}

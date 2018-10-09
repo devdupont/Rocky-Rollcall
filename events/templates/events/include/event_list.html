@@ -1,0 +1,9 @@
+<div>
+    <ul>
+    {% for event in events %}
+        <li>{% include 'events/include/event.html' with event=event %}</li>
+    {% empty %}
+        <li>No events yet.</li>
+    {% endfor %}
+    </ul>
+</div>
