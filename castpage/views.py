@@ -2,12 +2,16 @@
 View logic for cast page and management
 """
 
+# Django
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+# Other apps
 from events.views import EventListView
-from .forms import CastForm, PageSectionForm
+# This app
+from .forms import AddManagerForm, CastForm, PageSectionForm
 from .models import Cast, PageSection
 
 @login_required
@@ -143,3 +147,53 @@ def cast_admin_edit(request, slug: str):
         'cast': cast,
         'form': form,
     })
+
+@login_required
+def cast_admin_managers(request, slug: str):
+    """
+    Cast manager list and add page
+    """
+    cast = get_object_or_404(Cast, slug=slug)
+    if not cast.is_manager(request.user):
+        return HttpResponseForbidden()
+    if request.method == 'POST':
+        form = AddManagerForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            user = User.objects.filter(username=username)
+            if user:
+                user = user[0]
+                if cast.is_manager(user):
+                    msg = f'{username} is already a manager'
+                else:
+                    cast.managers.add(user.profile)
+                    msg = f'{user.first_name} {user.last_name} has been added as a manager'
+                messages.error(request, msg)
+            else:
+                msg = f'Could not find an account for "{username}"'
+                messages.success(request, msg)
+            return redirect('cast_admin_managers', slug=cast.slug)
+    else:
+        form = AddManagerForm()
+    return render(request, 'castpage/managers.html', {
+        'cast': cast,
+        'form': form,
+    })
+
+@login_required
+def cast_admin_managers_delete(request, slug: str, pk: int):
+    """
+    Remove a user from cast managers
+    """
+    cast = get_object_or_404(Cast, slug=slug)
+    if not cast.is_manager(request.user):
+        return HttpResponseForbidden()
+    user = get_object_or_404(User, pk=pk)
+    if cast.managers.count() < 2:
+        messages.error(request, 'Casts must have at least one manager')
+    elif request.user == user:
+        messages.error(request, 'You cannot remove yourself')
+    else:
+        cast.managers.remove(user.profile)
+        messages.success(request, f'{user.username} is no longer a manager')
+    return redirect('cast_admin_managers', slug=cast.slug)

@@ -25,3 +25,7 @@ class PageSectionForm(forms.ModelForm):
     class Meta:
         model = PageSection
         fields = ('title', 'text',)
+
+class AddManagerForm(forms.Form):
+
+    username = forms.CharField(max_length=150)

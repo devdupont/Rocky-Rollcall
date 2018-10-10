@@ -1,0 +1,24 @@
+{% extends 'castpage/base.html' %}
+
+{% block content %}
+<div>
+    <h1>{{ cast.name }} Managers</h1>
+    <div>
+        <ul>
+        {% for manager in cast.managers.all %}
+            <li>
+                {{ manager.user.first_name }} {{ manager.user.last_name }} ({{ manager.user.username }})
+                {% if user.pk != manager.user.pk %}<a class="btn btn-danger" href="{% url 'cast_admin_managers_delete' slug=cast.slug pk=manager.user.pk %}" role="button"><i class="far fa-trash-alt"></i></a>{% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h3>Add Manager by Username</h3>
+        <form method="POST" class="add-manager-form">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-primary">Add Manager</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
