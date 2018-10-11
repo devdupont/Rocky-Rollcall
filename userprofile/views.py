@@ -12,7 +12,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from .forms import DeleteUserForm, SignUpForm
+from .forms import DeleteUserForm, EditUserForm, SignUpForm
 from .tokens import account_activation_token
 
 @login_required
@@ -76,6 +76,21 @@ def activation_sent(request):
     Renders activation email sent page
     """
     return render(request, 'registration/activation_sent.html')
+
+@login_required
+def edit_user(request):
+    """
+    Edit a subset of auth.User fields
+    """
+    user = request.user
+    if request.method == 'POST':
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save()
+            return redirect('user_settings')
+    else:
+        form = EditUserForm(instance=user)
+    return render(request, 'registration/edit.html', {'form': form})
 
 @login_required
 def delete(request):

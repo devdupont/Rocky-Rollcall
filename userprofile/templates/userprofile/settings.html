@@ -6,6 +6,7 @@
     {% include 'userprofile/include/member_casts.html' %}
     <h2>Account management</h2>
     <ul>
+        <li><a href="{% url 'user_edit' %}">Edit account info</a></li>
         <li><a href="{% url 'password_change' %}">Change your password</a></li>
         <li><a href="{% url 'user_delete' %}">Delete your account</a></li>
     </ul>

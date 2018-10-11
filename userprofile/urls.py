@@ -10,5 +10,6 @@ urlpatterns = [
     path('signup', views.signup, name='user_signup'),
     path('activation_sent', views.activation_sent, name='user_activation_sent'),
     path('activate/<int:pk>/<slug:token>', views.activate, name='user_activate'),
+    path('edit', views.edit_user, name='user_edit'),
     path('delete', views.delete, name='user_delete'),
 ]
