@@ -1,15 +1,13 @@
 {% extends 'castpage/base.html' %}
 
 {% block content %}
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Cast Info</h1>
-                <form method="POST" class="cast-form" enctype="multipart/form-data">{% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="save btn btn-primary">Save</button>
-                </form>
-            </div>
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Cast Info</h1>
+            <form method="POST" class="cast-form" enctype="multipart/form-data">{% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="save btn btn-primary">Save</button>
+            </form>
         </div>
     </div>
 {% endblock %}

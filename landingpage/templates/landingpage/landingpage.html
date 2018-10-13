@@ -7,7 +7,6 @@
 
 
 {% block content %}
-<div class="content container">
     <h1>Welcome to Rocky Rollcall!</h1>
     <p>Find your nearest cast or create your cast's about page</p>
     <h2>Available Casts</h2>
@@ -21,5 +20,4 @@
         {% include 'events/include/event_list.html' %}
         <a href="{% url 'event_list' %}">Show more upcoming events</a>
     </div>
-</div>
 {% endblock %}

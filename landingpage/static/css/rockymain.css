@@ -1,0 +1,44 @@
+body {
+    background: #202020;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+header {
+    background: #BA150C;
+    margin-bottom: 20px;
+}
+
+header a {
+    color: #6E0500;
+}
+
+header a:hover {
+    color: #F15A52;
+}
+
+main a {
+    color: #BA150C;
+}
+
+main a:hover {
+    color: #F15A52;
+}
+
+.floatr {
+    float: right;
+}
+
+.btn-primary {
+    background-color: #BA150C;
+    border-color: #BA150C;
+}
+
+.btn-primary:hover {
+    background-color: #F15A52;
+    border-color: #F15A52;
+}
+
+.btn-danger {
+    background-color: #F15A52;
+    border-color: #F15A52;
+}

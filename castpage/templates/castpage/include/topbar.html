@@ -1,4 +1,8 @@
-<div class="page-header">
-    <h1><a href="/">Rocky Rollcall</a>{% if cast %} - <a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a>{% endif %}</h1>
-    {% include 'include/loginout.html' %}
+<div class="row justify-content-between">
+    <div class="col">
+        <h3><a href="/">Rocky Rollcall</a>{% if cast %} - <a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a>{% endif %}</h1>
+    </div>
+    <div class="col-sm-auto">
+        {% include 'include/loginout.html' %}
+    </div>
 </div>

@@ -6,12 +6,10 @@
 {% endblock %}
 
 {% block content %}
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-                <h2>Sign up</h2>
-                {% include 'registration/include/form.html' with form=form submit_text='Sign Up' %}
-            </div>
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Sign up</h2>
+            {% include 'registration/include/form.html' with form=form submit_text='Sign Up' %}
         </div>
     </div>
 {% endblock %}
