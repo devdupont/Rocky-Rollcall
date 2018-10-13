@@ -63,7 +63,8 @@ class CastEvents(EventListView):
         context = super().get_context_data(**kwargs)
         cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
         context['cast'] = cast
-        context['show_management'] = cast.is_manager(self.request.user),
+        context['show_cast'] = False
+        context['show_management'] = cast.is_manager(self.request.user)
         return context
 
 @login_required

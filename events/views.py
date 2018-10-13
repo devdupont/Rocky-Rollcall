@@ -80,3 +80,11 @@ class EventListView(ListView):
     context_object_name = 'events'
     # pylint: disable=E1101
     queryset = Event.objects.filter(date__gte=date.today())
+
+    def get_context_data(self, **kwargs) -> dict:
+        """
+        Return render context
+        """
+        context = super().get_context_data(**kwargs)
+        context['show_cast'] = True
+        return context

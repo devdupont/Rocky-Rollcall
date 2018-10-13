@@ -16,5 +16,10 @@
         <li><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></li>
         {% endfor %}
     </ul>
+    <div class="events-card">
+        <h3>Upcoming Events</h3>
+        {% include 'events/include/event_list.html' %}
+        <a href="{% url 'event_list' %}">Show more upcoming events</a>
+    </div>
 </div>
 {% endblock %}
