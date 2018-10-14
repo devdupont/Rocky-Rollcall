@@ -12,28 +12,34 @@
             {% endif %}
             <div class="row">
                 <div class="col">
+                    <p>
                     {% if cast.external_url %}<a class="btn btn-primary" href="{{ cast.external_url }}" role="button"><i class="fas fa-home"></i></a>{% endif %}
                     {% if cast.facebook_url %}<a class="btn btn-primary" href="{{ cast.facebook_url }}" role="button"><i class="fab fa-facebook-f"></i></a>{% endif %}
                     {% if cast.twitter_user %}<a class="btn btn-primary" href="https://twitter.com/{{ cast.twitter_user }}" role="button"><i class="fab fa-twitter"></i></a>{% endif %}
                     {% if cast.instagram_user %}<a class="btn btn-primary" href="https://instagram.com/{{ cast.instagram_user }}" role="button"><i class="fab fa-instagram"></i></a>{% endif %}
+                    </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="col">
+                <h3>Upcoming Events</h3>
+                {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
+                <a href="{% url 'cast_events' slug=cast.slug %}">Show all upcoming events</a>
+            </div>
+        </aside>
+        <div class="col-md-8 sections">
+            <div class="col section">
+                <div class="section-title">
+                    <h3>About Us</h3>
+                    {% if show_management %}
+                        <a class="btn btn-primary" href="{% url 'cast_admin_edit' slug=cast.slug %}" role="button"><i class="fas fa-edit"></i></a>
+                    {% endif %}
+                </div>
+                <div class="section-body">
                     <p>{{ cast.description }}</p>
                 </div>
             </div>
-        </aside>
-        <div class="col-md-8">
-            <h3>Upcoming Events</h3>
-            {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
-            <a href="{% url 'cast_events' slug=cast.slug %}">Show all upcoming events</a>
-        </div>
-    </div>
-    <div class="sections">
-        {% for section in cast.page_sections.all %}
-        <div class="row section">
-            <div class="col">
+            {% for section in cast.page_sections.all %}
+            <div class="col section">
                 <div class="section-title">
                     <h3>{{ section.title }}</h3>
                     {% if show_management %}
@@ -45,12 +51,12 @@
                     <p>{{ section.text }}</p>
                 </div>
             </div>
+            {% endfor %}
+            {% if show_management %}
+            <div class="col">
+                <a href="{% url 'cast_section_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
+            </div>
+            {% endif %}
         </div>
-        {% endfor %}
-        {% if show_management %}
-        <div>
-            <a href="{% url 'cast_section_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
-        </div>
-        {% endif %}
     </div>
 {% endblock %}

@@ -1,10 +1,12 @@
-<div class="castbar row">
-    {% if cast.logo %}
-    <div class="col-md-auto">
-        <img src="{{ cast.logo.url }}" />
-    </div>
-    {% endif %}
-    <div class="col align-self-end">
-        <h1><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></h1>
+<div class="container">
+    <div class="row">
+        {% if cast.logo %}
+        <div class="col-md-auto">
+            <img src="{{ cast.logo.url }}" />
+        </div>
+        {% endif %}
+        <div class="col align-self-end">
+            <h1><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></h1>
+        </div>
     </div>
 </div>
