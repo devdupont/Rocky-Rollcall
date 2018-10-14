@@ -15,10 +15,7 @@
     </div>
     <div>
         <h3>Add Manager by Username</h3>
-        <form method="POST" class="add-manager-form">{% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="save btn btn-primary">Add Manager</button>
-        </form>
+        {% include 'registration/include/form.html' with form=form submit_text='Add Manager' %}
     </div>
 </div>
 {% endblock %}
