@@ -6,6 +6,6 @@
     {% endif %}
     {% if show_cast %}<div><a href="{% url 'cast_home' slug=event.cast.slug %}">{{ event.cast.name }}</a></div>{% endif %}
     <div>{{ event.date }} - {{ event.start_time }}</div>
-    <div>{{ event.venue }}</div>
+    <div><a href="https://www.google.com/maps/search/{{ event.venue|urlencode }}">{{ event.venue }}</a></div>
     <p>{{ event.description }}</p>
 </div>
