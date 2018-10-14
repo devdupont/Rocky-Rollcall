@@ -11,13 +11,23 @@ nav a:hover {
     color: #F15A52;
 }
 
+nav .col-xs-auto {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
 header {
     background: #BA150C;
+    color: #DDD;
     margin-bottom: 20px;
 }
 
+header .row {
+    height: 70px;
+}
+
 header a {
-    color: #6E0500;
+    color: #DDD;
 }
 
 header a:hover {
@@ -34,10 +44,6 @@ main a:hover {
 
 main .row {
     margin-top: 10px;
-}
-
-.floatr {
-    float: right;
 }
 
 .btn-primary {

@@ -1,3 +1,7 @@
+header .row {
+    height: auto;
+}
+
 .title-card h1 {
     display: inline-block;
 }

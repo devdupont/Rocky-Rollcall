@@ -6,7 +6,5 @@
     {% endif %}
     <div class="col align-self-end">
         <h1><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></h1>
-        {% if show_management %}<a class="btn btn-primary" href="{% url 'cast_admin' slug=cast.slug %}" role="button"><i class="fas fa-cog"></i></a>{% endif %}
-        <p>{{ cast.description }}</p>
     </div>
 </div>
