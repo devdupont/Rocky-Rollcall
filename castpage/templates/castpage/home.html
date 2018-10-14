@@ -1,18 +1,6 @@
 {% extends 'castpage/base.html' %}
 
 {% block content %}
-    <div class="row title-card">
-        {% if cast.logo %}
-        <div class="col-md-auto">
-            <img src="{{ cast.logo.url }}" />
-        </div>
-        {% endif %}
-        <div class="col align-self-end">
-            <h1>{{ cast.name }}</h1>
-            {% if show_management %}<a class="btn btn-primary" href="{% url 'cast_admin' slug=cast.slug %}" role="button"><i class="fas fa-cog"></i></a>{% endif %}
-            <p>{{ cast.description }}</p>
-        </div>
-    </div>
     <div class="row social-card">
         <div class="col">
             {% if cast.external_url %}<a class="btn btn-primary" href="{{ cast.external_url }}" role="button"><i class="fas fa-home"></i></a>{% endif %}

@@ -3,6 +3,14 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
+nav a {
+    color: #BA150C;
+}
+
+nav a:hover {
+    color: #F15A52;
+}
+
 header {
     background: #BA150C;
     margin-bottom: 20px;
@@ -40,6 +48,7 @@ main .row {
 .btn-primary:hover {
     background-color: #F15A52;
     border-color: #F15A52;
+    color: #6E0500;
 }
 
 .btn-danger {
