@@ -7,17 +7,27 @@
 
 
 {% block content %}
-    <h1>Welcome to Rocky Rollcall!</h1>
-    <p>Find your nearest cast or create your cast's about page</p>
-    <h2>Available Casts</h2>
-    <ul>
-        {% for cast in casts %}
-        <li><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></li>
-        {% endfor %}
-    </ul>
-    <div class="events-card">
-        <h3>Upcoming Events</h3>
-        {% include 'events/include/event_list.html' %}
-        <a href="{% url 'event_list' %}">Show more upcoming events</a>
+    <div class="row title-card">
+        <div class="col">
+            <h1>Welcome to Rocky Rollcall!</h1>
+            <p>Find your nearest cast or create your cast's about page</p>
+        </div>
+    </div>
+    <div class="row casts-card">
+        <div class="col">
+            <h2>Available Casts</h2>
+            <ul>
+                {% for cast in casts %}
+                <li><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row events-card">
+        <div class="col">
+            <h3>Upcoming Events</h3>
+            {% include 'events/include/event_list.html' %}
+            <a href="{% url 'event_list' %}">Show more upcoming events</a>
+        </div>
     </div>
 {% endblock %}

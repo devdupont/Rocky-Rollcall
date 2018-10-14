@@ -24,6 +24,10 @@ main a:hover {
     color: #F15A52;
 }
 
+main .row {
+    margin-top: 10px;
+}
+
 .floatr {
     float: right;
 }
@@ -39,6 +43,13 @@ main a:hover {
 }
 
 .btn-danger {
-    background-color: #F15A52;
-    border-color: #F15A52;
+    background-color: white;
+    border-color: #BA150C;
+    color: #BA150C;
+}
+
+.btn-danger:hover {
+    background-color: #BA150C;
+    border-color: #BA150C;
+    color: white;
 }
