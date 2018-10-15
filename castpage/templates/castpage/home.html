@@ -6,7 +6,7 @@
             {% if show_management %}
             <div class="row">
                 <div class="col">
-                    <p>Manage Cast <a class="btn btn-primary" href="{% url 'cast_admin' slug=cast.slug %}" role="button"><i class="fas fa-cog"></i></a></p>
+                    <p><a class="btn btn-primary" href="{% url 'cast_admin' slug=cast.slug %}" role="button">Manage Cast <i class="fas fa-cog"></i></a></p>
                 </div>
             </div>
             {% endif %}
