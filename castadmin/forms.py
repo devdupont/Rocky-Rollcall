@@ -24,7 +24,7 @@ class PageSectionForm(forms.ModelForm):
 
     class Meta:
         model = PageSection
-        fields = ('title', 'text',)
+        fields = ('title', 'order', 'text',)
 
 class AddManagerForm(forms.Form):
 

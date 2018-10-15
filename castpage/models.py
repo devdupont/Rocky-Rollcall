@@ -74,10 +74,11 @@ class PageSection(models.Model):
     cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='page_sections')
     title = models.CharField(max_length=128)
     text = models.TextField()
+    order = models.PositiveSmallIntegerField(default=1)
     created_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        ordering = ['created_date']
+        ordering = ['order']
 
     def __str__(self) -> str:
         return f"{self.cast.name} | {self.title}"
