@@ -27,12 +27,14 @@ def event_new(request, slug: str):
             event.cast = cast
             event.save()
             messages.success(request, f'"{event.name}" has been created')
-            return redirect('cast_home', slug=cast.slug)
+            if 'more' not in request.POST:
+                return redirect('cast_events', slug=cast.slug)
     else:
         form = EventForm()
     return render(request, 'events/event_edit.html', {
         'form': form,
         'form_title': 'New Event',
+        'show_ca_button': True,
     })
 
 @login_required
@@ -48,7 +50,7 @@ def event_edit(request, pk: int):
         if form.is_valid():
             event = form.save()
             messages.success(request, f'"{event.name}" has been updated')
-            return redirect('cast_home', slug=event.cast.slug)
+            return redirect('cast_events', slug=event.cast.slug)
     else:
         form = EventForm(instance=event)
     return render(request, 'events/event_edit.html', {

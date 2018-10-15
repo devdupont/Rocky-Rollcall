@@ -1,0 +1,5 @@
+<form method="post">
+    {% csrf_token %}
+    {% include 'include/form/fields.html' %}
+    <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+</form>
