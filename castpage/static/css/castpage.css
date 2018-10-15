@@ -2,7 +2,11 @@ header .row {
     height: auto;
 }
 
-.title-card h1 {
+.events-list h1 {
+    display: inline-block;
+}
+
+.event h4 {
     display: inline-block;
 }
 

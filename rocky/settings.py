@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rockyrollcall.herokuapp.com']
 INSTALLED_APPS = [
     'storages',
     'castpage',
+    'castadmin',
     'landingpage',
     'userprofile',
     'events',

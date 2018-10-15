@@ -5,8 +5,8 @@
     <h1>{{ cast.name }} Admin</h1>
     <ul>
         <li><a href="{% url 'event_new' slug=cast.slug %}">Create a new event</a></li>
-        <li><a href="{% url 'cast_admin_edit' slug=cast.slug %}">Edit cast info</a></li>
-        <li><a href="{% url 'cast_admin_managers' slug=cast.slug %}">Add or remove managers</a></li>
+        <li><a href="{% url 'cast_edit' slug=cast.slug %}">Edit cast info</a></li>
+        <li><a href="{% url 'cast_managers_edit' slug=cast.slug %}">Add or remove managers</a></li>
     </ul>
 </div>
 {% endblock %}

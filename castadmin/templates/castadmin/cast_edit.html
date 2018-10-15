@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col">
             <h1>Cast Info</h1>
             <form method="POST" class="cast-form" enctype="multipart/form-data">{% csrf_token %}
                 {{ form.as_p }}

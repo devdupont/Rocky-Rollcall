@@ -1,9 +1,9 @@
 """
-Cast page form classes
+Cast admin form classes
 """
 
 from django import forms
-from .models import Cast, PageSection
+from castpage.models import Cast, PageSection
 
 class CastForm(forms.ModelForm):
 

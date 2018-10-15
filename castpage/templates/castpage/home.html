@@ -31,7 +31,7 @@
                 <div class="section-title">
                     <h3>About Us</h3>
                     {% if show_management %}
-                        <a class="btn btn-primary" href="{% url 'cast_admin_edit' slug=cast.slug %}" role="button"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-primary" href="{% url 'cast_edit' slug=cast.slug %}" role="button"><i class="fas fa-edit"></i></a>
                     {% endif %}
                 </div>
                 <div class="section-body">
@@ -44,7 +44,7 @@
                     <h3>{{ section.title }}</h3>
                     {% if show_management %}
                         <a class="btn btn-primary" href="{% url 'cast_section_edit' slug=cast.slug pk=section.pk %}" role="button"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="{% url 'cast_section_remove' slug=cast.slug pk=section.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-danger" href="{% url 'cast_section_delete' slug=cast.slug pk=section.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
                     {% endif %}
                 </div>
                 <div class="section-body">

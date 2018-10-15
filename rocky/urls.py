@@ -29,6 +29,7 @@ urlpatterns = [
     path('user/', include('django.contrib.auth.urls')),
     url('', include('landingpage.urls')),
     url('cast/', include('castpage.urls')),
+    url('cast/admin/', include('castadmin.urls')),
     url('user/', include('userprofile.urls')),
     url('event/', include('events.urls')),
 ]
