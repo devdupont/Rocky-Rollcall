@@ -5,6 +5,7 @@ Models to build and manage Rocky casts and their home page
 from datetime import date
 from django.db import models
 from django.utils import text, timezone
+from sorl.thumbnail import ImageField
 
 nulls = {'default': None, 'blank': True}
 
@@ -22,7 +23,7 @@ class Cast(models.Model):
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = models.TextField()
-    logo = models.ImageField(blank=True, upload_to=cast_logo, default='../blank_logo.jpg')
+    logo = ImageField(blank=True, upload_to=cast_logo, default='../blank_logo.jpg')
     created_date = models.DateTimeField(default=timezone.now)
 
     managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')

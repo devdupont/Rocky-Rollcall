@@ -1,9 +1,12 @@
+{% load thumbnail %}
 <div class="container">
     <div class="row">
     {% if cast %}
         {% if cast.logo %}
         <div class="col-md-auto">
-            <img src="{{ cast.logo.url }}" />
+            {% thumbnail cast.logo "200x200" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
         </div>
         {% endif %}
         <div class="col align-self-end">
