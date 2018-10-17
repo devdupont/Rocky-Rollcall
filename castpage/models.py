@@ -6,6 +6,13 @@ from datetime import date
 from django.db import models
 from django.utils import text, timezone
 from sorl.thumbnail import ImageField
+from django_cleanup.signals import cleanup_pre_delete
+
+def sorl_delete(**kwargs):
+    from sorl.thumbnail import delete
+    delete(kwargs['file'])
+
+cleanup_pre_delete.connect(sorl_delete)
 
 nulls = {'default': None, 'blank': True}
 
