@@ -1,9 +1,11 @@
 {% load thumbnail %}
 <div class="cast-stub">
+    <a href="{% url 'cast_home' slug=cast.slug %}">
     {% if cast.logo %}
         {% thumbnail cast.logo "100x100" crop="center" as im %}
         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
         {% endthumbnail %}
     {% endif %}
-    <h4><a href="{% url 'cast_home' slug=cast.slug %}">{{ cast.name }}</a></h4>
+    <h4>{{ cast.name }}</h4>
+    </a>
 </div>
