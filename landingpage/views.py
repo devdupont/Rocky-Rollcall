@@ -10,7 +10,7 @@ def home(request):
     # pylint: disable=E1101
     return render(request, 'landingpage/landingpage.html', {
         'casts': Cast.objects.all(),
-        'events': Event.objects.filter(date__gte=date.today())[:3],
+        'events': Event.objects.filter(date__gte=date.today())[:6],
         'show_cast': True,
         'tinylist': True,
     })
