@@ -25,8 +25,8 @@
     <div class="row events-card">
         <div class="col">
             <h3>Upcoming Events</h3>
-            {% include 'events/include/event_list.html' %}
-            <a href="{% url 'event_list' %}">Show more upcoming events</a>
+            {% include 'events/include/event_grid.html' %}
+            <a class="btn btn-primary" href="{% url 'event_list' %}">Show more upcoming events</a>
         </div>
     </div>
 {% endblock %}

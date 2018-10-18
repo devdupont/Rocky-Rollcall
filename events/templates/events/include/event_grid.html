@@ -1,0 +1,13 @@
+<div class="event-list row">
+    {% for event in events %}
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            {% if tinylist %}
+                {% include 'events/include/event_short.html' with event=event %}
+            {% else %}
+                {% include 'events/include/event.html' with event=event %}
+            {% endif %}
+        </div>
+    {% empty %}
+        No events yet.
+    {% endfor %}
+</div>

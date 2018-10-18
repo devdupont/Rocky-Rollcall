@@ -20,10 +20,12 @@
                     </p>
                 </div>
             </div>
-            <div class="col">
-                <h3>Upcoming Events</h3>
-                {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
-                <a href="{% url 'cast_events' slug=cast.slug %}">Show all upcoming events</a>
+            <div class="row">
+                <div class="col">
+                    <h3>Upcoming Events</h3>
+                    {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
+                    <a class="btn btn-primary" href="{% url 'cast_events' slug=cast.slug %}">All Upcoming Events</a>
+                </div>
             </div>
         </aside>
         <div class="col-md-8 sections">

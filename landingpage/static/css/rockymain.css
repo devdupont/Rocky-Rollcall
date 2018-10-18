@@ -46,6 +46,10 @@ main .row {
     margin-top: 10px;
 }
 
+aside {
+    margin-bottom: 20px;
+}
+
 .btn-primary {
     background-color: #BA150C;
     border-color: #BA150C;
@@ -67,4 +71,14 @@ main .row {
     background-color: #BA150C;
     border-color: #BA150C;
     color: white;
+}
+
+.event-list {
+    margin-bottom: 15px;
+}
+
+.event {
+    background-color: #303030;
+    margin: 5px 0px 5px 0px;
+    padding: 5px;
 }
