@@ -1,0 +1,9 @@
+<div class="cast-grid row">
+    {% for cast in casts %}
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            {% include 'castpage/include/cast_stub.html' with cast=cast %}
+        </div>
+    {% empty %}
+        No events yet.
+    {% endfor %}
+</div>

@@ -73,6 +73,20 @@ aside {
     color: white;
 }
 
+.cast-stub {
+    background-color: #303030;
+    margin: 5px 0px 5px 0px;
+    padding: 5px;
+}
+
+.cast-stub h4 {
+    margin: 5px 0px 0px 0px;
+}
+
+.event-grid {
+    margin-bottom: 15px;
+}
+
 .event-list {
     margin-bottom: 15px;
 }
