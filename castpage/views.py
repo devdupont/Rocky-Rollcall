@@ -44,7 +44,7 @@ class CastEvents(EventListView):
     """
 
     template_name = 'castpage/event_list.html'
-    paginate_by = 2
+    paginate_by = 12
 
     def get_queryset(self) -> ['Event']:
         """

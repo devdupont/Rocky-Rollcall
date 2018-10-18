@@ -78,7 +78,7 @@ class EventListView(ListView):
     """
 
     model = Event
-    paginate_by = 2
+    paginate_by = 12
     context_object_name = 'events'
     # pylint: disable=E1101
     queryset = Event.objects.filter(date__gte=date.today())
