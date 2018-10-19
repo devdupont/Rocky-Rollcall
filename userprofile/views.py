@@ -3,6 +3,7 @@ View logic for user profiles and management
 """
 
 from os import environ
+from decouple import config
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
@@ -28,7 +29,7 @@ def signup(request):
     """
     Create and validate a new user
     """
-    if environ.get('DISABLE_SIGNUP'):
+    if config('DISABLE_SIGNUP', default=False, cast=bool):
         return HttpResponseForbidden()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
