@@ -1,0 +1,10 @@
+<div class = "calendar-grid container">
+    {% for day, events in calendar.items %}
+    <div class="calendar-header row">
+        <div class="col">
+            <h4>{{ day.month }} - {{ day.day }}</h4>
+        </div>
+    </div>
+    {% include 'events/include/event_grid.html' with events=events %}
+    {% endfor %}
+</div>

@@ -91,6 +91,10 @@ aside {
     /* width: 40%; */
 }
 
+.calendar-header {
+    background-color: #6E0500;
+}
+
 .event-grid {
     margin-bottom: 15px;
 }

@@ -34,3 +34,24 @@ class Event(models.Model):
 
     def __str__(self) -> str:
         return f"{self.cast.name} | {self.date} | {self.start_time}"
+
+def get_upcoming_events(days: int = 14, limit: int = 12, cast: int = None) -> dict:
+    """
+    Returns upcoming events as a calendar dictionary
+    """
+    search = {
+        'date__gte': date.today(),
+        'date__lte': date.today()+timedelta(days=days),
+    }
+    if cast:
+        search['cast__pk'] = cast
+    # pylint: disable=E1101
+    events = Event.objects.filter(**search)[:limit]
+    calendar = {}
+    for event in events:
+        day = event.date
+        if day in calendar:
+            calendar[day].append(event)
+        else:
+            calendar[day] = [event]
+    return calendar
