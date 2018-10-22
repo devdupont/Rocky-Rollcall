@@ -2,7 +2,9 @@
     {% for day, events in calendar.items %}
     <div class="calendar-header row">
         <div class="col">
-            <h4>{{ day.month }} - {{ day.day }}</h4>
+            <div class="btn btn-calendar">
+                <h4><span style="color: #BA150C">{{ day|date:'b'|title }}</span> <span style="color: black">{{ day.day }}</span></h4>
+            </div>
         </div>
     </div>
     {% include 'events/include/event_grid.html' with events=events %}

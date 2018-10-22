@@ -73,6 +73,16 @@ aside {
     color: white;
 }
 
+.btn-calendar {
+    background-color: #DDD;
+    padding: 3px 5px 3px 5px;
+    margin: 7px 0px;
+}
+
+.btn-calendar h4 {
+    margin: 0px;
+}
+
 .cast-stub {
     background-color: #303030;
     margin: 5px 0px 5px 0px;
