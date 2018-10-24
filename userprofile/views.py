@@ -66,6 +66,7 @@ def activate(request, pk, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.profile.email_confirmed = True
+        user.profile.save()
         user.save()
         login(request, user)
         return redirect('user_settings')
