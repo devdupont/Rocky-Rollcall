@@ -4,6 +4,8 @@
             {% include 'castpage/include/cast_stub.html' with cast=cast %}
         </div>
     {% empty %}
-        No events yet.
+        <div class="col">
+            <p>No casts yet.</p>
+        </div>
     {% endfor %}
 </div>

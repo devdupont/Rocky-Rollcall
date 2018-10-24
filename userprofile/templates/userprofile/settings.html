@@ -2,13 +2,21 @@
 
 {% block content %}
 <div>
-    <h1>Profile settings for {{ user.username }}</h1>
-    {% include 'userprofile/include/member_casts.html' %}
-    <h2>Account management</h2>
-    <ul>
-        <li><a href="{% url 'user_edit' %}">Edit account info</a></li>
-        <li><a href="{% url 'password_change' %}">Change your password</a></li>
-        <li><a href="{% url 'user_delete' %}">Delete your account</a></li>
-    </ul>
+    <h1>Profile Settings for {{ user.username }}</h1>
+    <div class="row">
+        <div class="col">
+            <h2>Member Casts</h2>
+            {% include 'castpage/include/cast_grid.html' with casts=user.profile.managed_casts.all %}
+            <a href="{% url 'cast_new' %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> New Cast</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Account management</h2>
+            <a href="{% url 'user_edit' %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i> Edit Account</a>
+            <a href="{% url 'password_change' %}" class="btn btn-primary" role="button"><i class="fas fa-lock"></i> Change Password</a>
+            <a href="{% url 'user_delete' %}" class="btn btn-danger" role="button"><i class="far fa-trash-alt"></i> Delete Account</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
