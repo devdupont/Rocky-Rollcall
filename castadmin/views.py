@@ -3,6 +3,7 @@ View logic for cast management
 """
 
 # Django
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -41,6 +42,7 @@ def cast_edit(request, slug: str):
     return render(request, 'castadmin/cast_edit.html', {
         'cast': cast,
         'form': form,
+        'tinymce_api_key': settings.TINYMCE_API_KEY,
     })
 
 @login_required
@@ -60,7 +62,11 @@ def section_new(request, slug: str):
             return redirect('cast_home', slug=cast.slug)
     else:
         form = PageSectionForm()
-    return render(request, 'castadmin/section_edit.html', {'cast': cast, 'form': form})
+    return render(request, 'castadmin/section_edit.html', {
+        'cast': cast,
+        'form': form,
+        'tinymce_api_key': settings.TINYMCE_API_KEY,
+    })
 
 @login_required
 def section_edit(request, slug: str, pk: int):
@@ -80,7 +86,11 @@ def section_edit(request, slug: str, pk: int):
             return redirect('cast_home', slug=cast.slug)
     else:
         form = PageSectionForm(instance=section)
-    return render(request, 'castadmin/section_edit.html', {'cast': cast, 'form': form})
+    return render(request, 'castadmin/section_edit.html', {
+        'cast': cast,
+        'form': form,
+        'tinymce_api_key': settings.TINYMCE_API_KEY,
+    })
 
 @login_required
 def section_delete(request, slug: str, pk: int):

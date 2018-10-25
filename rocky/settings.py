@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sorl.thumbnail',
     'django_cleanup',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,5 @@ if config('ENABLE_MAIL_SERVER', default=False, cast=bool):
     EMAIL_USE_TLS = True
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+TINYMCE_API_KEY = config('TINYMCE_API_KEY')

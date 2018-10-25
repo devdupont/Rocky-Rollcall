@@ -22,11 +22,16 @@ from django.urls import path
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    # Handle favicon at root
     path('favicon.ico', RedirectView.as_view(
         url=staticfiles_storage.url('favicon.ico')
     ), name='favicon'),
+    # Django included
     path('admin/', admin.site.urls),
     path('user/', include('django.contrib.auth.urls')),
+    # Installed apps
+    url('tinymce/', include('tinymce.urls')),
+    # Site apps
     url('', include('landingpage.urls')),
     url('cast/', include('castpage.urls')),
     url('cast/admin/', include('castadmin.urls')),

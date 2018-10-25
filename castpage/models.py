@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import text, timezone
 from sorl.thumbnail import ImageField
 from django_cleanup.signals import cleanup_pre_delete
+from tinymce.models import HTMLField
 
 def sorl_delete(**kwargs):
     from sorl.thumbnail import delete
@@ -29,7 +30,7 @@ class Cast(models.Model):
 
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    description = models.TextField()
+    description = HTMLField()
     logo = ImageField(blank=True, upload_to=cast_logo, default='../blank_logo.jpg')
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -81,7 +82,7 @@ class PageSection(models.Model):
 
     cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='page_sections')
     title = models.CharField(max_length=128)
-    text = models.TextField()
+    text = HTMLField()
     order = models.PositiveSmallIntegerField(default=1)
     created_date = models.DateTimeField(default=timezone.now)
 

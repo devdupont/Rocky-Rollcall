@@ -3,6 +3,7 @@ View logic for cast page
 """
 
 # Django
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 # Other apps
@@ -25,7 +26,10 @@ def cast_new(request):
             return redirect('cast_home', slug=cast.slug)
     else:
         form = CastForm()
-    return render(request, 'castadmin/cast_edit.html', {'form': form})
+    return render(request, 'castadmin/cast_edit.html', {
+        'form': form,
+        'tinymce_api_key': settings.TINYMCE_API_KEY,
+    })
 
 def cast_home(request, slug: str):
     """

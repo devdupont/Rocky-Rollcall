@@ -37,7 +37,7 @@
                     {% endif %}
                 </div>
                 <div class="section-body">
-                    <p>{{ cast.description }}</p>
+                    {{ cast.description|safe }}
                 </div>
             </div>
             {% for section in cast.page_sections.all %}
@@ -50,7 +50,7 @@
                     {% endif %}
                 </div>
                 <div class="section-body">
-                    <p>{{ section.text }}</p>
+                    <p>{{ section.text|safe }}</p>
                 </div>
             </div>
             {% endfor %}
