@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from decouple import config, Csv
+from django.contrib.messages import constants as messages
 from dj_database_url import parse as db_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -160,3 +161,8 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 TINYMCE_API_KEY = config('TINYMCE_API_KEY')
+
+# Set message tags for bootstrap alerts
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}

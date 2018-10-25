@@ -106,7 +106,7 @@ def delete(request):
             if form.cleaned_data.get('username') == user.username:
                 logout(request)
                 user.delete()
-                messages.success(request, 'User successfully deleted your account')
+                messages.success(request, 'You successfully deleted your account')
                 return redirect('landing_page')
             else:
                 messages.error(request, 'Your username does not match')

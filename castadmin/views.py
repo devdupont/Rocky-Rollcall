@@ -127,7 +127,7 @@ def managers_edit(request, slug: str):
                 messages.error(request, msg)
             else:
                 msg = f'Could not find an account for "{username}"'
-                messages.success(request, msg)
+                messages.error(request, msg)
             return redirect('cast_managers_edit', slug=cast.slug)
     else:
         form = AddManagerForm()
