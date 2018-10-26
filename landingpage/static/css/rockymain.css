@@ -50,6 +50,10 @@ aside {
     margin-bottom: 20px;
 }
 
+.button-grid .btn {
+    margin-bottom: 5px;
+}
+
 .btn-primary {
     background-color: #BA150C;
     border-color: #BA150C;

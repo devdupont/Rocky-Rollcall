@@ -3,7 +3,7 @@
 {% block content %}
 <div>
     <h1>{{ cast.name }} Admin</h1>
-    <div class="row">
+    <div class="row button-grid">
         <div class="col">
             <a href="{% url 'event_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> New Event</a>
             <a href="{% url 'cast_edit' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i> Edit Cast</a>
