@@ -10,8 +10,9 @@ class CastForm(forms.ModelForm):
     class Meta:
         model = Cast
         fields = (
-            'name', 'description', 'logo',
+            'name', 'logo',
             'external_url', 'facebook_url', 'twitter_user', 'instagram_user',
+            'description',
         )
         help_texts = {
             'external_url': 'Your existing website URL. Ex: https://mycast.com',
@@ -19,6 +20,10 @@ class CastForm(forms.ModelForm):
             'twitter_user': 'Twitter @username. Ex: mycast',
             'instagram_user': 'Instagram @username. Ex: mycast',
         }
+
+class DeleteCastForm(forms.Form):
+
+    name = forms.CharField(max_length=128, help_text='Type the cast name to confirm deletion')
 
 class PageSectionForm(forms.ModelForm):
 

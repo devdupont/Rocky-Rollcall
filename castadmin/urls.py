@@ -13,6 +13,7 @@ urlpatterns = [
     path(_s+'section/<int:pk>/edit/', views.section_edit, name='cast_section_edit'),
     path(_s+'section/<int:pk>/remove/', views.section_delete, name='cast_section_delete'),
     path(_s+'edit', views.cast_edit, name='cast_edit'),
+    path(_s+'delete', views.cast_delete, name='cast_delete'),
     path(_s+'managers', views.managers_edit, name='cast_managers_edit'),
     path(_s+'managers/delete/<int:pk>', views.managers_delete, name='cast_managers_delete'),
 ]

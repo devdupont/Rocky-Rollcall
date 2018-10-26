@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 # This app
-from .forms import AddManagerForm, CastForm, PageSectionForm
+from .forms import AddManagerForm, CastForm, DeleteCastForm, PageSectionForm
 from castpage.models import Cast, PageSection
 
 @login_required
@@ -43,6 +43,34 @@ def cast_edit(request, slug: str):
         'cast': cast,
         'form': form,
         'tinymce_api_key': settings.TINYMCE_API_KEY,
+    })
+
+@login_required
+def cast_delete(request, slug: str):
+    """
+    Delete a cast after verification
+    """
+    cast = get_object_or_404(Cast, slug=slug)
+    if not cast.is_manager(request.user):
+        return HttpResponseForbidden()
+    if cast.managers.count() > 1:
+        messages.info(request, 'Other managers must be removed before you can delete a cast')
+        return redirect('cast_admin', slug=slug)
+    if request.method == 'POST':
+        form = DeleteCastForm(request.POST)
+        if form.is_valid():
+            castname = cast.name
+            if form.cleaned_data.get('name') == castname:
+                cast.delete()
+                messages.success(request, f'You successfully deleted {castname}')
+                return redirect('user_settings')
+            else:
+                messages.error(request, 'The cast name does not match')
+    else:
+        form = DeleteCastForm()
+    return render(request, 'castadmin/delete.html', {
+        'cast': cast,
+        'form': form,
     })
 
 @login_required

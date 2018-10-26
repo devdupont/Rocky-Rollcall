@@ -1,0 +1,10 @@
+{% extends 'castpage/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Delete Cast</h2>
+            {% include 'include/form/full.html' with form=form submit_text='Delete Cast' %}
+        </div>
+    </div>
+{% endblock %}

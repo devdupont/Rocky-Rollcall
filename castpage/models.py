@@ -31,7 +31,7 @@ class Cast(models.Model):
     name = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = HTMLField()
-    logo = ImageField(blank=True, upload_to=cast_logo, default='../blank_logo.jpg')
+    logo = ImageField(blank=True, upload_to=cast_logo)
     created_date = models.DateTimeField(default=timezone.now)
 
     managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')
