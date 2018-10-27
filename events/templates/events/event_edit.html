@@ -2,20 +2,14 @@
 
 {% block headers %}
 <title>{{ form_title }}</title>
-{% include 'include/datepicker/today.html' %}
-<!-- {% include 'include/timepicker/15min.html' %} -->
+{{ form.media }}
 {% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-md-8">
             <h1>{{ form_title }}</h1>
-            <form method="post">
-                {% csrf_token %}
-                {% include 'include/form/fields.html' %}
-                <button type="submit" name="save" class="btn btn-primary">Save Event</button>
-                {% if show_ca_button %}<button type="submit" name="more" class="btn btn-primary">Save and Create Another</button>{% endif %}
-            </form>
+            {% include 'include/form.html' with form=form submit_text='Save Event' %}
         </div>
     </div>
 {% endblock %}

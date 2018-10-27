@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
     'sorl.thumbnail',
     'django_cleanup',
     'tinymce',
@@ -165,4 +167,8 @@ TINYMCE_API_KEY = config('TINYMCE_API_KEY')
 # Set message tags for bootstrap alerts
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
+}
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
 }

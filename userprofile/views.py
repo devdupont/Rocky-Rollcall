@@ -89,6 +89,7 @@ def edit_user(request):
         form = EditUserForm(request.POST, instance=user)
         if form.is_valid():
             user = form.save()
+            messages.success(request, 'User settings updated')
             return redirect('user_settings')
     else:
         form = EditUserForm(instance=user)

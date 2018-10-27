@@ -1,0 +1,9 @@
+{% load bootstrap4 %}
+<form method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+        {% if show_ca_button %}<button type="submit" name="more" class="btn btn-primary">Save and Create Another</button>{% endif %}
+    {% endbuttons %}
+</form>

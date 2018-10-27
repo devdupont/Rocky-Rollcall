@@ -1,5 +1,7 @@
 {% extends 'castpage/base.html' %}
 
+{% load bootstrap4 %}
+
 {% block headers %}
     {{ block.super }}
     {% include 'include/headers/tinymce.html' %}
@@ -9,9 +11,12 @@
     <div class="row">
         <div class="col">
             <h1>Cast Info</h1>
-            <form method="POST" class="cast-form" enctype="multipart/form-data">{% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="save btn btn-primary">Save Cast</button>
+            <form method="POST" class="cast-form form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="save btn btn-primary">Save Cast</button>
+                {% endbuttons %}
             </form>
         </div>
     </div>

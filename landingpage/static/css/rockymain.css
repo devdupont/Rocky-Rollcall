@@ -123,3 +123,7 @@ aside {
     margin: 5px 0px 5px 0px;
     padding: 5px;
 }
+
+.bootstrap-datetimepicker-widget * {
+    color: black;
+}

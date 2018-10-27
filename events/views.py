@@ -2,12 +2,15 @@
 View logic for calendar event management
 """
 
+# stdlib
 from datetime import date
+# django
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
+# app
 from castpage.models import Cast
 from .forms import EventForm
 from .models import Event

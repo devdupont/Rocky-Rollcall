@@ -1,5 +1,7 @@
 boto3~=1.9
 django>=2.1.2
+django-bootstrap4~=0.0
+django-bootstrap-datepicker-plus~=3.0
 django-cleanup~=2.1
 django_storages~=1.7
 django-tinymce~=2.7
