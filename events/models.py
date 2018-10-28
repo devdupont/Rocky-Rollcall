@@ -15,11 +15,11 @@ class Event(models.Model):
     A calendar event
     """
 
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name='Event Name')
     description = models.TextField()
     venue = models.CharField(max_length=256)
     date = models.DateField()
-    start_time = models.TimeField()
+    start_time = models.TimeField(verbose_name='Start Time')
 
     cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='events')
     created = models.DateTimeField(default=timezone.now)

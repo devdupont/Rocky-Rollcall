@@ -15,6 +15,8 @@ class CastForm(forms.ModelForm):
             'description',
         )
         help_texts = {
+            'name': 'Cast name (including URL name) must be unique',
+            'logo': 'Cast logos will be centered and cropped into squares',
             'external_url': 'Your existing website URL. Ex: https://mycast.com',
             'facebook_url': 'Public Facebook cast group URL. Ex: https://facebook.com/mycast',
             'twitter_user': 'Twitter @username. Ex: mycast',

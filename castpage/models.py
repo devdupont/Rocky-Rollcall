@@ -28,19 +28,19 @@ class Cast(models.Model):
     Basic Rocky Horror cast info
     """
 
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128, unique=True, verbose_name='Cast Name')
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    description = HTMLField()
-    logo = ImageField(blank=True, upload_to=cast_logo)
+    description = HTMLField(verbose_name='About Us')
+    logo = ImageField(blank=True, upload_to=cast_logo, verbose_name='Cast Logo')
     created_date = models.DateTimeField(default=timezone.now)
 
     managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')
 
     # Social Links
-    external_url = models.URLField(**nulls)
-    facebook_url = models.URLField(**nulls)
-    twitter_user = models.CharField(max_length=15, **nulls)
-    instagram_user = models.CharField(max_length=30, **nulls)
+    external_url = models.URLField(**nulls, verbose_name='Existing Homepage')
+    facebook_url = models.URLField(**nulls, verbose_name='Facebook Group URL')
+    twitter_user = models.CharField(max_length=15, **nulls, verbose_name='Twitter Username')
+    instagram_user = models.CharField(max_length=30, **nulls, verbose_name='Instagram Username')
 
     def save(self, *args, **kwargs):
         """
@@ -81,9 +81,9 @@ class PageSection(models.Model):
     """
 
     cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='page_sections')
-    title = models.CharField(max_length=128)
-    text = HTMLField()
-    order = models.PositiveSmallIntegerField(default=1)
+    title = models.CharField(max_length=128, verbose_name='Section Title')
+    text = HTMLField(verbose_name='Content')
+    order = models.PositiveSmallIntegerField(default=1, verbose_name='Section Priority')
     created_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
