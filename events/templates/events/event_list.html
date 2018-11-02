@@ -3,5 +3,5 @@
 {% block content %}
 <h1>Events</h1>
 {% include 'events/include/event_grid.html' with events=events %}
-{% if is_paginated %}{% include 'events/include/pagination.html' %}{% endif %}
+{% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
 {% endblock %}

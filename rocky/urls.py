@@ -37,6 +37,7 @@ urlpatterns = [
     url('cast/admin/', include('castadmin.urls')),
     url('user/', include('userprofile.urls')),
     url('event/', include('events.urls')),
+    url('search/', include('search.urls')),
 ]
 
 # If running locally:

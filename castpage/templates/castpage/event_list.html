@@ -8,7 +8,7 @@
             <a href="{% url 'event_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
             {% endif %}
             {% include 'events/include/event_grid.html' with events=events %}
-            {% if is_paginated %}{% include 'events/include/pagination.html' %}{% endif %}
+            {% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
         </div>
     </div>
 {% endblock %}

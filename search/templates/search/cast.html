@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row search-card">
+        <div class="col">
+            <h2>Cast Search</h2>
+            {% include 'include/form.html' with form=form submit_text='Search' %}
+        </div>
+    </div>
+    {% if casts %}
+    <div class="row results-card">
+        <div class="col">
+            <h2>Results</h2>
+            {% include 'castpage/include/cast_grid.html' with casts=casts %}
+            {% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
+        </div>
+    </div>
+    {% endif %}
+    </div>
+{% endblock %}
