@@ -2,35 +2,44 @@
 View logic for cast management
 """
 
-# Django
+# django
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
-# This app
+# app
 from .forms import AddManagerForm, CastForm, DeleteCastForm, PageSectionForm
 from castpage.models import Cast, PageSection
 
-@login_required
-def cast_admin(request, slug: str):
+def manager_required(f) -> 'Callable':
+    """
+    Decorator for views which require:
+    1. An authenticated User
+    2. An existing cast matching a slug
+    3. The user is a manager of the cast
+    """
+    @login_required
+    def managed_view(request, slug: str, *args, **kwargs):
+        cast = get_object_or_404(Cast, slug=slug)
+        if not cast.is_manager(request.user):
+            return HttpResponseForbidden()
+        return f(request, cast, *args, **kwargs)
+    return managed_view
+
+@manager_required
+def cast_admin(request, cast: Cast):
     """
     Renders cast admin page
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     return render(request, 'castadmin/admin.html', {'cast': cast})
 
-@login_required
-def cast_edit(request, slug: str):
+@manager_required
+def cast_edit(request, cast: Cast):
     """
     Edit existing cast info
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     if request.method == 'POST':
         form = CastForm(request.POST, request.FILES, instance=cast)
         if form.is_valid():
@@ -45,17 +54,14 @@ def cast_edit(request, slug: str):
         'tinymce_api_key': settings.TINYMCE_API_KEY,
     })
 
-@login_required
-def cast_delete(request, slug: str):
+@manager_required
+def cast_delete(request, cast: Cast):
     """
     Delete a cast after verification
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     if cast.managers.count() > 1:
         messages.info(request, 'Other managers must be removed before you can delete a cast')
-        return redirect('cast_admin', slug=slug)
+        return redirect('cast_admin', slug=cast.slug)
     if request.method == 'POST':
         form = DeleteCastForm(request.POST)
         if form.is_valid():
@@ -73,14 +79,11 @@ def cast_delete(request, slug: str):
         'form': form,
     })
 
-@login_required
-def section_new(request, slug: str):
+@manager_required
+def section_new(request, cast: Cast):
     """
     Add a new PageSection to a cast's home page
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     if request.method == 'POST':
         form = PageSectionForm(request.POST)
         if form.is_valid():
@@ -96,14 +99,11 @@ def section_new(request, slug: str):
         'tinymce_api_key': settings.TINYMCE_API_KEY,
     })
 
-@login_required
-def section_edit(request, slug: str, pk: int):
+@manager_required
+def section_edit(request, cast: Cast, pk: int):
     """
     Edit an existing section of a cast's home page
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     section = get_object_or_404(PageSection, pk=pk)
     if request.method == 'POST':
         form = PageSectionForm(request.POST, instance=section)
@@ -120,26 +120,20 @@ def section_edit(request, slug: str, pk: int):
         'tinymce_api_key': settings.TINYMCE_API_KEY,
     })
 
-@login_required
-def section_delete(request, slug: str, pk: int):
+@manager_required
+def section_delete(request, cast: Cast, pk: int):
     """
     Remove a section from a cast's home page
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     section = get_object_or_404(PageSection, pk=pk)
     section.delete()
     return redirect('cast_home', slug=cast.slug)
 
-@login_required
-def managers_edit(request, slug: str):
+@manager_required
+def managers_edit(request, cast: Cast):
     """
     Cast manager list and add page
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     if request.method == 'POST':
         form = AddManagerForm(request.POST)
         if form.is_valid():
@@ -148,14 +142,12 @@ def managers_edit(request, slug: str):
             if user:
                 user = user[0]
                 if cast.is_manager(user):
-                    msg = f'{username} is already a manager'
+                    messages.info(request, f'{username} is already a manager')
                 else:
                     cast.managers.add(user.profile)
-                    msg = f'{user.first_name} {user.last_name} has been added as a manager'
-                messages.error(request, msg)
+                    messages.success(request, f'{user.first_name} {user.last_name} has been added as a manager')
             else:
-                msg = f'Could not find an account for "{username}"'
-                messages.error(request, msg)
+                messages.error(request, f'Could not find an account for "{username}"')
             return redirect('cast_managers_edit', slug=cast.slug)
     else:
         form = AddManagerForm()
@@ -164,14 +156,11 @@ def managers_edit(request, slug: str):
         'form': form,
     })
 
-@login_required
-def managers_delete(request, slug: str, pk: int):
+@manager_required
+def managers_delete(request, cast: Cast, pk: int):
     """
     Remove a user from cast managers
     """
-    cast = get_object_or_404(Cast, slug=slug)
-    if not cast.is_manager(request.user):
-        return HttpResponseForbidden()
     user = get_object_or_404(User, pk=pk)
     if cast.managers.count() < 2:
         messages.error(request, 'Casts must have at least one manager')
