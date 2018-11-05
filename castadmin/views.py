@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+# library
+from notify.signals import notify
 # app
 from .forms import AddManagerForm, CastForm, DeleteCastForm, PageSectionForm
 from castpage.models import Cast, PageSection
@@ -145,6 +147,8 @@ def managers_edit(request, cast: Cast):
                     messages.info(request, f'{username} is already a manager')
                 else:
                     cast.managers.add(user.profile)
+                    notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
+                                verb='added', obj=user, target=cast, nf_type='cast_manager')
                     messages.success(request, f'{user.first_name} {user.last_name} has been added as a manager')
             else:
                 messages.error(request, f'Could not find an account for "{username}"')
@@ -167,6 +171,8 @@ def managers_delete(request, cast: Cast, pk: int):
     elif request.user == user:
         messages.error(request, 'You cannot remove yourself')
     else:
+        notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
+                    verb='removed', obj=user, target=cast, nf_type='cast_manager')
         cast.managers.remove(user.profile)
         messages.success(request, f'{user.username} is no longer a manager')
     return redirect('cast_managers_edit', slug=cast.slug)

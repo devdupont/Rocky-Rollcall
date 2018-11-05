@@ -1,0 +1,5 @@
+{% extends 'notifications/basenotif.html' %}
+
+{% block message %}
+    {{ notification.actor }} {{ notification.verb }} {{ notification.obj }} as an admin of <a href="{% url 'cast_home' slug=notification.target.slug %}">{{ notification.target }}</a>
+{% endblock %}

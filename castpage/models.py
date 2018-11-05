@@ -58,6 +58,13 @@ class Cast(models.Model):
         return not user.is_anonymous and self.managers.filter(pk=user.profile.pk)
 
     @property
+    def managers_as_user(self) -> ['auth.User']:
+        """
+        Returns managers as a list of auth Users
+        """
+        return [u.user for u in self.managers.all()] # pylint: disable=E1101
+
+    @property
     def future_events(self) -> ['Event']:
         """
         Returns cast events happening today or later

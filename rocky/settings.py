@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'sorl.thumbnail',
     'django_cleanup',
+    'notify',
     'tinymce',
 ]
 

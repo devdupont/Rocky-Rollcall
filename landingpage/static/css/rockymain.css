@@ -127,3 +127,8 @@ aside {
 .bootstrap-datetimepicker-widget * {
     color: black;
 }
+
+.notification {
+    background-color: #303030;
+    border-color: #DDD;
+}

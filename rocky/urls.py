@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('django.contrib.auth.urls')),
     # Installed apps
+    url('notifications/', include('notify.urls', 'notifications')),
     url('tinymce/', include('tinymce.urls')),
     # Site apps
     url('', include('landingpage.urls')),

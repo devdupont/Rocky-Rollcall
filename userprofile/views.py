@@ -2,7 +2,6 @@
 View logic for user profiles and management
 """
 
-from os import environ
 from decouple import config
 
 from django.contrib import messages
@@ -17,7 +16,7 @@ from .forms import DeleteUserForm, EditUserForm, SignUpForm
 from .tokens import account_activation_token
 
 @login_required
-def settings(request):
+def user_settings(request):
     """
     Renders user settings page
     """
@@ -114,3 +113,9 @@ def delete(request):
     else:
         form = DeleteUserForm()
     return render(request, 'registration/delete.html', {'form': form})
+
+def notifications(request):
+    """
+    Render user notification page
+    """
+    return render(request, 'userprofile/notifications.html')

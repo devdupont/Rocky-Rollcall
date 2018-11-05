@@ -1,0 +1,5 @@
+<div data-nf-id="{{ notification.id }}" class="notification list-group-item">
+    <a class="btn btn-primary delete-notification" href="#" role="button" data-id="{{ notification.id }}"><i class="fas fa-times-circle"></i></a>
+    {% block message %}{% endblock %}
+    <span class="timesince">{{ notification.created|timesince }} ago</span>
+</div>

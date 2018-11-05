@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block headers %}
+    {{ block.super }}
+    <script src="{% static 'js/notifyX.min.js' %}"></script>
+    {% load notification_tags %}
+    {% include_notify_js_variables %}
+{% endblock %}
+
+{% block content %}
+    <h1>Notifications</h1>
+    <div class="notification-box-list notifications">
+        {% render_notifications using request.user.notifications.active %}
+    </div>
+{% endblock %}
