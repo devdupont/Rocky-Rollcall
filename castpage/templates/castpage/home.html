@@ -13,6 +13,7 @@
             <div class="row">
                 <div class="col">
                     <p>
+                    <a class="btn btn-primary" href="mailto:{{ cast.email }}" role="button"><i class="fas fa-envelope"></i></a>
                     {% if cast.external_url %}<a class="btn btn-primary" href="{{ cast.external_url }}" role="button"><i class="fas fa-home"></i></a>{% endif %}
                     {% if cast.facebook_url %}<a class="btn btn-primary" href="{{ cast.facebook_url }}" role="button" style="background-color: #3B5998; border-color: #3B5998"><i class="fab fa-facebook-f"></i></a>{% endif %}
                     {% if cast.twitter_user %}<a class="btn btn-primary" href="https://twitter.com/{{ cast.twitter_user }}" role="button" style="background-color: #00aced; border-color: #00aced"><i class="fab fa-twitter"></i></a>{% endif %}

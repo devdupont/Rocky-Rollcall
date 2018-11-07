@@ -10,13 +10,14 @@ class CastForm(forms.ModelForm):
     class Meta:
         model = Cast
         fields = (
-            'name', 'logo',
+            'name', 'logo', 'email',
             'external_url', 'facebook_url', 'twitter_user', 'instagram_user',
             'description',
         )
         help_texts = {
             'name': 'Cast name (including URL name) must be unique',
             'logo': 'Cast logos will be centered and cropped into squares',
+            'email': 'Email for questions about attending and booking shows',
             'external_url': 'Your existing website URL. Ex: https://mycast.com',
             'facebook_url': 'Public Facebook cast group URL. Ex: https://facebook.com/mycast',
             'twitter_user': 'Twitter @username. Ex: mycast',
