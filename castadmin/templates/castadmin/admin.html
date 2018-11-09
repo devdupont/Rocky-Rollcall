@@ -6,6 +6,7 @@
     <div class="row button-grid">
         <div class="col">
             <a href="{% url 'event_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> New Event</a>
+            <a href="{% url 'cast_photo_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="far fa-image"></i> New Photo</a>
             <a href="{% url 'cast_edit' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i> Edit Cast</a>
             <a href="{% url 'cast_managers_edit' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-users"></i> Edit Managers</a>
             <a href="{% url 'cast_delete' slug=cast.slug %}" class="btn btn-danger" role="button"><i class="far fa-trash-alt"></i> Delete Cast</a>

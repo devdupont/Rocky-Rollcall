@@ -23,6 +23,12 @@ def cast_logo(instance, filename: str) -> str:
     """
     return f"casts/{instance.slug}/logo.{filename.split('.')[-1]}"
 
+def cast_photo(instance, filename: str) -> str:
+    """
+    Generate cast photo filename from cast slug
+    """
+    return f"casts/{instance.cast.slug}/photos/{filename}"
+
 class Cast(models.Model):
     """
     Basic Rocky Horror cast info
@@ -99,3 +105,15 @@ class PageSection(models.Model):
 
     def __str__(self) -> str:
         return f"{self.cast.name} | {self.title}"
+
+class Photo(models.Model):
+    """
+    Photos associated with a cast profile
+    """
+
+    cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='photos')
+    image = ImageField(upload_to=cast_photo)
+    description = models.TextField(**nulls)
+
+    class Meta:
+        ordering = ['-pk']

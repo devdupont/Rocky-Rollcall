@@ -12,8 +12,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 # library
 from notify.signals import notify
 # app
-from .forms import AddManagerForm, CastForm, DeleteCastForm, PageSectionForm
-from castpage.models import Cast, PageSection
+from castadmin.forms import AddManagerForm, CastForm, CastPhotoForm, DeleteCastForm, PageSectionForm
+from castpage.models import Cast, PageSection, Photo
 
 def manager_required(f) -> 'Callable':
     """
@@ -129,6 +129,54 @@ def section_delete(request, cast: Cast, pk: int):
     """
     section = get_object_or_404(PageSection, pk=pk)
     section.delete()
+    return redirect('cast_home', slug=cast.slug)
+
+@manager_required
+def photo_new(request, cast: Cast):
+    """
+    Add a new Photo to a cast
+    """
+    if request.method == 'POST':
+        form = CastPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.cast = cast
+            photo.save()
+            return redirect('cast_home', slug=cast.slug)
+    else:
+        form = CastPhotoForm()
+    return render(request, 'castadmin/photo_edit.html', {
+        'cast': cast,
+        'form': form,
+    })
+
+@manager_required
+def photo_edit(request, cast: Cast, pk: int):
+    """
+    Edit Photo information
+    """
+    photo = get_object_or_404(Photo, pk=pk)
+    if request.method == 'POST':
+        form = CastPhotoForm(request.POST, request.FILES, instance=photo)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.cast = cast
+            photo.save()
+            return redirect('cast_home', slug=cast.slug)
+    else:
+        form = CastPhotoForm(instance=photo)
+    return render(request, 'castadmin/photo_edit.html', {
+        'cast': cast,
+        'form': form,
+    })
+
+@manager_required
+def photo_delete(request, cast: Cast, pk: int):
+    """
+    Delete a Photo from a cast
+    """
+    photo = get_object_or_404(Photo, pk=pk)
+    photo.delete()
     return redirect('cast_home', slug=cast.slug)
 
 @manager_required

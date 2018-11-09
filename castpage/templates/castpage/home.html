@@ -28,6 +28,9 @@
                     <a class="btn btn-primary" href="{% url 'cast_events' slug=cast.slug %}">All Upcoming Events</a>
                 </div>
             </div>
+            {% if cast.photos %}
+                {% include 'castpage/include/photo_square_grid.html' with photos=cast.photos.all|slice:":6" %}
+            {% endif %}
         </aside>
         <div class="col-md-8 sections">
             <div class="col section">
