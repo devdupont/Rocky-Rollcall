@@ -29,7 +29,12 @@
                 </div>
             </div>
             {% if cast.photos %}
-                {% include 'castpage/include/photo_square_grid.html' with photos=cast.photos.all|slice:":6" %}
+            <div class="row">
+                <div class="col">
+                    {% include 'castpage/include/photo_tight_grid.html' with photos=cast.photos.all|slice:":6" %}
+                    <a class="btn btn-primary" href="{% url 'cast_photos' slug=cast.slug %}">All Photos</a>
+                </div>
+            </div>
             {% endif %}
         </aside>
         <div class="col-md-8 sections">

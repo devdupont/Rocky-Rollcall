@@ -1,0 +1,14 @@
+{% load thumbnail %}
+<div class="container image-grid">
+    <div class="row text-center text-lg-left">
+        {% for photo in photos %}
+        <div class="col-6 col-sm-4 col-md-3 text-center">
+            <a href="{% url 'cast_photo_detail' slug=photo.cast.slug pk=photo.pk %}">
+            {% thumbnail photo.image "400x300" crop="center" as im %}
+                <img src="{{ im.url }}" alt="Grid Photo" class="img-fluid img-thumbnail">
+            {% endthumbnail %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>

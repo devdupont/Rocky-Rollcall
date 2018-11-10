@@ -92,6 +92,7 @@ def section_new(request, cast: Cast):
             section = form.save(commit=False)
             section.cast = cast
             section.save()
+            messages.success(request, f'"{section.title}" has been created')
             return redirect('cast_home', slug=cast.slug)
     else:
         form = PageSectionForm()
@@ -113,6 +114,7 @@ def section_edit(request, cast: Cast, pk: int):
             section = form.save(commit=False)
             section.cast = cast
             section.save()
+            messages.success(request, f'"{section.title}" has been updated')
             return redirect('cast_home', slug=cast.slug)
     else:
         form = PageSectionForm(instance=section)
@@ -129,6 +131,7 @@ def section_delete(request, cast: Cast, pk: int):
     """
     section = get_object_or_404(PageSection, pk=pk)
     section.delete()
+    messages.success(request, f'"{section.title}" has been deleted')
     return redirect('cast_home', slug=cast.slug)
 
 @manager_required
@@ -142,7 +145,8 @@ def photo_new(request, cast: Cast):
             photo = form.save(commit=False)
             photo.cast = cast
             photo.save()
-            return redirect('cast_home', slug=cast.slug)
+            messages.success(request, f'Photo has been added')
+            return redirect('cast_photo_detail', slug=cast.slug, pk=photo.pk)
     else:
         form = CastPhotoForm()
     return render(request, 'castadmin/photo_edit.html', {
@@ -162,7 +166,8 @@ def photo_edit(request, cast: Cast, pk: int):
             photo = form.save(commit=False)
             photo.cast = cast
             photo.save()
-            return redirect('cast_home', slug=cast.slug)
+            messages.success(request, f'Photo has been updated')
+            return redirect('cast_photo_detail', slug=cast.slug, pk=photo.pk)
     else:
         form = CastPhotoForm(instance=photo)
     return render(request, 'castadmin/photo_edit.html', {
@@ -177,6 +182,7 @@ def photo_delete(request, cast: Cast, pk: int):
     """
     photo = get_object_or_404(Photo, pk=pk)
     photo.delete()
+    messages.success(request, f'Photo has been deleted')
     return redirect('cast_home', slug=cast.slug)
 
 @manager_required
