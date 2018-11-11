@@ -1,0 +1,23 @@
+{% load static thumbnail %}
+<aside class="col-md-4">
+    <section class="row">
+        <div class="col text-center">
+            {% if user.profile.image %}
+                {% thumbnail user.profile.image "200x200" crop="center" as im %}
+                <img src="{{ im.url }}" class="rounded-circle profile-image" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+            {% else %}
+                <img src="{% static 'img/lips.png' %}" class="rounded-circle profile-image" width="200px" height="200px">
+            {% endif %}
+            <h3>{% if user.profile.alt %}{{ user.profile.alt }}{% else %}{{ user.first_name }} {{ user.last_name }}{% endif %}</h3>
+        </div>
+    </section>
+    <section>
+        {% if user.profile.location %}
+        <p><a href="https://www.google.com/maps/search/{{ user.profile.location|urlencode }}">{{ user.profile.location }}</a></p>
+        {% endif %}
+        {% if user.profile.bio %}
+        <p>{{ user.profile.bio }}</p>
+        {% endif %}
+    </section>
+</aside>

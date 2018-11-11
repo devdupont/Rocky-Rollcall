@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'castadmin',
     'landingpage',
     'userprofile',
+    'useradmin',
     'events',
     'search',
     'django.contrib.admin',

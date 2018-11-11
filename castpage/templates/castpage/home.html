@@ -38,7 +38,7 @@
             {% endif %}
         </aside>
         <div class="col-md-8 sections">
-            <div class="col section">
+            <section class="col">
                 <div class="section-title">
                     <h3>About Us</h3>
                     {% if show_management %}
@@ -48,9 +48,9 @@
                 <div class="section-body">
                     {{ cast.description|safe }}
                 </div>
-            </div>
+            </section>
             {% for section in cast.page_sections.all %}
-            <div class="col section">
+            <section class="col">
                 <div class="section-title">
                     <h3>{{ section.title }}</h3>
                     {% if show_management %}
@@ -61,7 +61,7 @@
                 <div class="section-body">
                     <p>{{ section.text|safe }}</p>
                 </div>
-            </div>
+            </section>
             {% endfor %}
             {% if show_management %}
             <div class="col">

@@ -106,14 +106,21 @@ class PageSection(models.Model):
     def __str__(self) -> str:
         return f"{self.cast.name} | {self.title}"
 
-class Photo(models.Model):
+class PhotoBase(models.Model):
+    """
+    Base Photo class
+    """
+
+    image = ImageField(upload_to=cast_photo)
+    description = models.TextField(**nulls)
+
+    class Meta:
+        abstract = True
+        ordering = ['-pk']
+
+class Photo(PhotoBase):
     """
     Photos associated with a cast profile
     """
 
     cast = models.ForeignKey('castpage.Cast', on_delete=models.CASCADE, related_name='photos')
-    image = ImageField(upload_to=cast_photo)
-    description = models.TextField(**nulls)
-
-    class Meta:
-        ordering = ['-pk']

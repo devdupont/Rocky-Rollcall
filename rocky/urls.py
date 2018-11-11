@@ -36,7 +36,8 @@ urlpatterns = [
     url('', include('landingpage.urls')),
     url('cast/', include('castpage.urls')),
     url('cast/admin/', include('castadmin.urls')),
-    url('user/', include('userprofile.urls')),
+    url('user/', include('useradmin.urls')),
+    url('profile/', include('userprofile.urls')),
     url('event/', include('events.urls')),
     url('search/', include('search.urls')),
 ]

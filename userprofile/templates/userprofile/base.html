@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block headers %}
+    <title>{% if user %}{{ user.username }}{% else %}Rocky Rollcall{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/userprofile.css' %}">
+{% endblock %}
+
+{% block header %}
+    {% include 'userprofile/include/header.html' %}
+{% endblock %}

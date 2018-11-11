@@ -14,6 +14,7 @@
         <div class="col">
             <h2>Account management</h2>
             <a href="{% url 'user_edit' %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i> Edit Account</a>
+            <a href="{% url 'user_profile_edit' %}" class="btn btn-primary" role="button"><i class="fas fa-user"></i> Edit Profile</a>
             <a href="{% url 'password_change' %}" class="btn btn-primary" role="button"><i class="fas fa-lock"></i> Change Password</a>
             <a href="{% url 'user_delete' %}" class="btn btn-danger" role="button"><i class="far fa-trash-alt"></i> Delete Account</a>
         </div>

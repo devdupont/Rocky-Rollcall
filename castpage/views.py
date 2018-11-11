@@ -13,7 +13,6 @@ from events.views import EventListView
 # This app
 from castpage.models import Cast, Photo
 
-
 def cast_required(f) -> 'Callable':
     """
     Decorator to convert a slug to a cast object

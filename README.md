@@ -16,8 +16,14 @@ cp .env.sample .env
 The app uses a Postgres backend. To run locally, you'll need to create a rocky database and owner.
 
 ```sql
-create user rocky;
-create database rocky owner rocky;
+CREATE USER rocky;
+CREATE DATABASE rocky OWNER rocky;
+```
+
+You'll also need to enable some extensions.
+
+```sql
+CREATE EXTENSION pg_trgm;
 ```
 
 Now that the database is set up, run the app migrations to deploy all of the models to the database.

@@ -12,8 +12,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 # app
 from castpage.models import Cast
-from .forms import EventForm
-from .models import Event
+from events.forms import EventForm
+from events.models import Event
 
 @login_required
 def event_new(request, slug: str):
