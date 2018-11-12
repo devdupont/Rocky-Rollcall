@@ -2,16 +2,18 @@
 View logic for user management
 """
 
+# library
 from decouple import config
-
+# django
+from django.http import HttpResponseForbidden
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponseForbidden
-from django.shortcuts import render, redirect
-from django.template.loader import render_to_string
+# app
 from useradmin.forms import DeleteUserForm, EditProfileForm, EditUserForm, SignUpForm
 from useradmin.tokens import account_activation_token
 

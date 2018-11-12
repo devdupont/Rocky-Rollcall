@@ -6,7 +6,7 @@
         <div class="col-md-8 sections">
             <section>
                 {% if user.profile.photos %}
-                    {% include 'castpage/include/photo_full_grid.html' with photos=user.profile.photos.all|slice:":6" %}
+                    {% include 'userprofile/include/photo_full_grid.html' with photos=user.profile.photos.all|slice:":6" %}
                 {% endif %}
             </section>
         </div>

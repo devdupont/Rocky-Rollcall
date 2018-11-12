@@ -1,0 +1,13 @@
+{% extends 'userprofile/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            {% include 'photos/include/detail.html' %}
+            {% if request.user == photo.profile.user %}
+            <a href="{% url 'user_photo_edit' username=user.username pk=photo.pk %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'user_photo_delete' username=user.username pk=photo.pk %}" class="btn btn-danger" role="button"><i class="far fa-trash-alt"></i></a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

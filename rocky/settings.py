@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'userprofile',
     'useradmin',
     'events',
+    'photos',
     'search',
     'django.contrib.admin',
     'django.contrib.auth',

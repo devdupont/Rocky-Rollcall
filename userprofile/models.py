@@ -7,13 +7,19 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from sorl.thumbnail import ImageField
-from castpage.models import PhotoBase
+from photos.models import PhotoBase
 
 def profile_image(instance, filename: str) -> str:
     """
     Generate cast logo filename from cast slug
     """
     return f"users/{instance.user.username}/profile_image.{filename.split('.')[-1]}"
+
+def user_photo(instance, filename: str) -> str:
+    """
+    Generate cast logo filename from cast slug
+    """
+    return f"users/{instance.profile.user.username}/photos/{filename}"
 
 class Profile(models.Model):
     """
@@ -26,6 +32,16 @@ class Profile(models.Model):
     alt = models.CharField(max_length=128, blank=True, verbose_name='Stage Name')
     bio = models.TextField(max_length=500, blank=True, verbose_name='Public Bio')
     location = models.CharField(max_length=64, blank=True)
+
+    # Social Buttons
+    external_url = models.URLField(blank=True, verbose_name='Personal Website')
+    facebook_url = models.URLField(blank=True, verbose_name='Facebook Page')
+    twitter_user = models.CharField(max_length=15, blank=True, verbose_name='Twitter Username')
+    instagram_user = models.CharField(max_length=30, blank=True, verbose_name='Instagram Username')
+
+    # Visibility Flags
+    show_email = models.BooleanField(default=False, verbose_name='Show Email on Profile')
+    searchable = models.BooleanField(default=True, verbose_name="Searchable Profile")
 
     # Config
     email_confirmed = models.BooleanField(default=False)
@@ -50,9 +66,10 @@ def update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance) #pylint: disable=E1101
     instance.profile.save()
 
-class UserPhoto(PhotoBase):
+class Photo(PhotoBase):
     """
     Photos associated with a user profile
     """
 
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='photos')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='photos')
+    image = ImageField(upload_to=user_photo)

@@ -1,0 +1,9 @@
+{% if obj.show_email %}
+<a class="btn btn-primary" href="mailto:{{ obj.user.email }}" role="button"><i class="fas fa-envelope"></i></a>
+{% elif obj.email %}
+<a class="btn btn-primary" href="mailto:{{ obj.email }}" role="button"><i class="fas fa-envelope"></i></a>
+{% endif %}
+{% if obj.external_url %}<a class="btn btn-primary" href="{{ obj.external_url }}" role="button"><i class="fas fa-home"></i></a>{% endif %}
+{% if obj.facebook_url %}<a class="btn btn-primary" href="{{ obj.facebook_url }}" role="button" style="background-color: #3B5998; border-color: #3B5998"><i class="fab fa-facebook-f"></i></a>{% endif %}
+{% if obj.twitter_user %}<a class="btn btn-primary" href="https://twitter.com/{{ obj.twitter_user }}" role="button" style="background-color: #00aced; border-color: #00aced"><i class="fab fa-twitter"></i></a>{% endif %}
+{% if obj.instagram_user %}<a class="btn btn-primary" href="https://instagram.com/{{ obj.instagram_user }}" role="button" style="background-color: #8a3ab9; border-color: #8a3ab9"><i class="fab fa-instagram"></i></a>{% endif %}

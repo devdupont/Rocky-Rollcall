@@ -3,6 +3,7 @@ Cast admin form classes
 """
 
 from django import forms
+from photos.forms import PhotoForm
 from castpage.models import Cast, PageSection, Photo
 
 class CastForm(forms.ModelForm):
@@ -34,11 +35,10 @@ class PageSectionForm(forms.ModelForm):
         model = PageSection
         fields = ('title', 'order', 'text',)
 
-class CastPhotoForm(forms.ModelForm):
+class CastPhotoForm(PhotoForm):
 
-    class Meta:
+    class Meta(PhotoForm.Meta):
         model = Photo
-        fields = ('image', 'description')
 
 class AddManagerForm(forms.Form):
 

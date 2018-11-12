@@ -160,6 +160,8 @@ def photo_edit(request, cast: Cast, pk: int):
     Edit Photo information
     """
     photo = get_object_or_404(Photo, pk=pk)
+    if cast != photo.cast:
+        return HttpResponseForbidden()
     if request.method == 'POST':
         form = CastPhotoForm(request.POST, request.FILES, instance=photo)
         if form.is_valid():
@@ -181,6 +183,8 @@ def photo_delete(request, cast: Cast, pk: int):
     Delete a Photo from a cast
     """
     photo = get_object_or_404(Photo, pk=pk)
+    if cast != photo.cast:
+        return HttpResponseForbidden()
     photo.delete()
     messages.success(request, f'Photo has been deleted')
     return redirect('cast_home', slug=cast.slug)

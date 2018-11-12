@@ -1,0 +1,18 @@
+{% extends 'userprofile/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>User Photo</h1>
+            <form method="POST" class="photo-form form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="save btn btn-primary">Save Photo</button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

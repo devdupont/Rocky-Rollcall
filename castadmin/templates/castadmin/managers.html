@@ -8,7 +8,7 @@
         {% for manager in cast.managers.all %}
             <li>
                 {{ manager.user.first_name }} {{ manager.user.last_name }} ({{ manager.user.username }})
-                {% if user.pk != manager.user.pk %}<a class="btn btn-danger" href="{% url 'cast_managers_delete' slug=cast.slug pk=manager.user.pk %}" role="button"><i class="far fa-trash-alt"></i></a>{% endif %}
+                {% if request.user.pk != manager.user.pk %}<a class="btn btn-danger" href="{% url 'cast_managers_delete' slug=cast.slug pk=manager.user.pk %}" role="button"><i class="far fa-trash-alt"></i></a>{% endif %}
             </li>
         {% endfor %}
         </ul>

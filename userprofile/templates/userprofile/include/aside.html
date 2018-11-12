@@ -12,12 +12,15 @@
             <h3>{% if user.profile.alt %}{{ user.profile.alt }}{% else %}{{ user.first_name }} {{ user.last_name }}{% endif %}</h3>
         </div>
     </section>
-    <section>
-        {% if user.profile.location %}
-        <p><a href="https://www.google.com/maps/search/{{ user.profile.location|urlencode }}">{{ user.profile.location }}</a></p>
-        {% endif %}
-        {% if user.profile.bio %}
-        <p>{{ user.profile.bio }}</p>
-        {% endif %}
+    <section class="row">
+        <div class="{% if full_aside %}col{% else %}col-xs-hidden col-sm-12{% endif %}">
+            <p>{% include 'include/social_buttons.html' with obj=user.profile %}</p>
+            {% if user.profile.location %}
+            <p><a href="https://www.google.com/maps/search/{{ user.profile.location|urlencode }}">{{ user.profile.location }}</a></p>
+            {% endif %}
+            {% if user.profile.bio %}
+            <p>{{ user.profile.bio }}</p>
+            {% endif %}
+        </div>
     </section>
 </aside>

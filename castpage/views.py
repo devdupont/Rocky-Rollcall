@@ -5,11 +5,12 @@ View logic for cast page
 # Django
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic.list import ListView
 # Other apps
 from castadmin.forms import CastForm
 from events.views import EventListView
+from photos.views import PhotoGridView
 # This app
 from castpage.models import Cast, Photo
 
@@ -57,10 +58,12 @@ def cast_photo_detail(request, cast: Cast, pk: int):
     """
     Renders a photo detail page
     """
-    photo = get_object_or_404(Photo, pk=pk)
+    photo = cast.photos.filter(pk=pk)
+    if not photo:
+        return HttpResponseNotFound()
     return render(request, 'castpage/photo_detail.html', {
         'cast': cast,
-        'photo': photo,
+        'photo': photo[0],
         'show_management': cast.is_manager(request.user),
     })
 
@@ -90,15 +93,13 @@ class CastEvents(EventListView):
         context['show_management'] = cast.is_manager(self.request.user)
         return context
 
-class CastPhotos(ListView):
+class CastPhotos(PhotoGridView):
     """
     Pagination view for cast photos
     """
 
     model = Photo
     template_name = 'castpage/photos.html'
-    paginate_by = 12
-    context_object_name = 'photos'
 
     def get_queryset(self) -> [Photo]:
         """

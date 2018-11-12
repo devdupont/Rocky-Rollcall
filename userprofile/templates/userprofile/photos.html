@@ -1,0 +1,14 @@
+{% extends 'userprofile/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Photos</h1>
+            {% if user == request.user %}
+            <a href="{% url 'user_photo_new' username=request.user.username %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
+            {% endif %}
+            {% include 'userprofile/include/photo_full_grid.html' with photos=photos %}
+            {% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
+        </div>
+    </div>
+{% endblock %}
