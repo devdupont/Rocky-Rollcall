@@ -2,12 +2,13 @@
 
 {% block content %}
     <div class="row">
-        <div class="col">
+        {% include 'userprofile/include/aside.html' %}
+        <div class="col-md-8">
             <h1>Photos</h1>
             {% if user == request.user %}
             <a href="{% url 'user_photo_new' username=request.user.username %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
             {% endif %}
-            {% include 'userprofile/include/photo_full_grid.html' with photos=photos %}
+            {% include 'photos/include/photo_grid.html' with photos=photos col_size='col-6 col-sm-4' thumb_size='400x300' link_template='userprofile/include/grid_photo_link.html' %}
             {% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
         </div>
     </div>

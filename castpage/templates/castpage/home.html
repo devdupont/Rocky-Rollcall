@@ -25,7 +25,7 @@
             {% if cast.photos %}
             <div class="row">
                 <div class="col">
-                    {% include 'castpage/include/photo_tight_grid.html' with photos=cast.photos.all|slice:":6" %}
+                    {% include 'photos/include/photo_grid.html' with photos=cast.photos.all|slice:":6" col_size='col-6 col-sm-4 col-md-6' thumb_size='200x150' link_template='castpage/include/grid_photo_link.html' %}
                     <a class="btn btn-primary" href="{% url 'cast_photos' slug=cast.slug %}">All Photos</a>
                 </div>
             </div>

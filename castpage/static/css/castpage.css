@@ -13,16 +13,3 @@ h1 {
 .section-title h3 {
     display: inline-block;
 }
-
-.image-grid div div {
-    padding: 2px;
-}
-
-.img-thumbnail {
-    background-color: #BA150C;
-    border: 1px solid #6E0500;
-}
-
-.image-grid {
-    margin-bottom: 10px;
-}

@@ -136,3 +136,16 @@ aside {
     background-color: #303030;
     border-color: #DDD;
 }
+
+.img-thumbnail {
+    background-color: #BA150C;
+    border: 1px solid #6E0500;
+}
+
+.image-grid div div {
+    padding: 2px;
+}
+
+.image-grid {
+    margin-bottom: 10px;
+}

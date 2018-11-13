@@ -2,9 +2,9 @@
 <div class="container image-grid">
     <div class="row text-center text-lg-left">
         {% for photo in photos %}
-        <div class="col-6 col-sm-4 col-md-6 text-center">
-            <a href="{% url 'cast_photo_detail' slug=photo.cast.slug pk=photo.pk %}">
-            {% thumbnail photo.image "200x150" crop="center" as im %}
+        <div class="{% if col_size %}{{ col_size }}{% else %}col-6 col-sm-4 col-md-3{% endif %} text-center">
+            {% include link_template %}
+            {% thumbnail photo.image thumb_size crop="center" as im %}
                 <img src="{{ im.url }}" alt="Grid Photo" class="img-fluid img-thumbnail">
             {% endthumbnail %}
             </a>

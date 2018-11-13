@@ -7,7 +7,7 @@
             {% if show_management %}
             <a href="{% url 'cast_photo_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>
             {% endif %}
-            {% include 'castpage/include/photo_full_grid.html' with photos=photos %}
+            {% include 'photos/include/photo_grid.html' with photos=photos thumb_size='400x300' link_template='castpage/include/grid_photo_link.html' %}
             {% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
         </div>
     </div>
