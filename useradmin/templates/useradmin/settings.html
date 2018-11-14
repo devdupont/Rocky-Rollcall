@@ -4,21 +4,21 @@
 <div>
     <h1>Profile Settings for {{ request.user.username }}</h1>
     <div class="row">
-        <div class="col">
+        <section class="col">
             <h2>Member Casts</h2>
             {% include 'castpage/include/cast_grid.html' with casts=request.user.profile.managed_casts.all %}
             <a href="{% url 'cast_new' %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> New Cast</a>
-        </div>
+        </section>
     </div>
     <div class="row button-grid">
-        <div class="col">
+        <section class="col">
             <h2>Account management</h2>
             <a href="{% url 'user_edit' %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i> Edit Account</a>
             <a href="{% url 'user_profile_edit' %}" class="btn btn-primary" role="button"><i class="fas fa-user"></i> Edit Profile</a>
             <a href="{% url 'user_photo_new' username=request.user.username %}" class="btn btn-primary" role="button"><i class="far fa-image"></i> New Photo</a>
             <a href="{% url 'password_change' %}" class="btn btn-primary" role="button"><i class="fas fa-lock"></i> Change Password</a>
             <a href="{% url 'user_delete' %}" class="btn btn-danger" role="button"><i class="far fa-trash-alt"></i> Delete Account</a>
-        </div>
+        </section>
     </div>
 </div>
 {% endblock %}

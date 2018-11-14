@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         {% include 'userprofile/include/aside.html' %}
-        <div class="col-md-8">
+        <div class="col-md-8 col-xl-9">
             <h1>Photos</h1>
             {% if user == request.user %}
             <a href="{% url 'user_photo_new' username=request.user.username %}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a>

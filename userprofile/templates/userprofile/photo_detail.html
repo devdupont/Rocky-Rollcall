@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         {% include 'userprofile/include/aside.html' %}
-        <div class="col-md-8">
+        <div class="col-md-8 col-xl-9">
             {% include 'photos/include/detail.html' %}
             {% if request.user == photo.profile.user %}
             <a href="{% url 'user_photo_edit' username=user.username pk=photo.pk %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i></a>

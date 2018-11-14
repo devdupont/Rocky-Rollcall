@@ -3,11 +3,21 @@ Search views
 """
 
 # django
+# from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
+# from django.contrib.auth.models import User
 # app
 from castpage.models import Cast
 from .forms import CastSearchForm
+
+# def find_user_by_name(query_name: str):
+#     """
+#     """
+#     qs = User.objects.all()
+#     for term in query_name.split():
+#         qs = qs.filter( Q(first_name__icontains = term) | Q(last_name__icontains = term))
+#     return qs
 
 class CastSearchListView(ListView):
     """
@@ -26,7 +36,7 @@ class CastSearchListView(ListView):
         name = self.request.POST.get('name') or self.request.GET.get('name')
         if not name:
             return []
-        return Cast.objects.filter(name__search=name) # pylint: disable=E1101
+        return Cast.objects.filter(name__trigram_similar=name) # pylint: disable=E1101
 
     def get_context_data(self, **kwargs) -> dict:
         """

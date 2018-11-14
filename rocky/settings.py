@@ -150,6 +150,7 @@ if config('ENABLE_S3_ASSETS', default=False, cast=bool):
         'CacheControl': 'max-age=86400',
     }
     DEFAULT_FILE_STORAGE = 'rocky.storage_backends.MediaStorage'
+    AWS_DEFAULT_ACL = None
 else:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
