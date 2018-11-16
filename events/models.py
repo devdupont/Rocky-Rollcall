@@ -4,6 +4,7 @@ Models to manage calendar events
 
 # stdlib
 from datetime import date, timedelta
+from enum import Enum
 # django
 from django.db import models
 from django.utils import timezone
@@ -47,7 +48,6 @@ def get_upcoming_events(days: int = 14, limit: int = 12, cast: int = None) -> di
     }
     if cast:
         search['cast__pk'] = cast
-    # pylint: disable=E1101
     events = Event.objects.filter(**search)[:limit]
     calendar = {}
     for event in events:
@@ -57,3 +57,39 @@ def get_upcoming_events(days: int = 14, limit: int = 12, cast: int = None) -> di
         else:
             calendar[day] = [event]
     return calendar
+
+class Role(Enum):
+    """
+    Roles performed at an event
+    """
+
+    FRANK = 'Dr. Frank-N-Furter'
+    JANET = 'Janet Weiss'
+    BRAD = 'Brad Majors'
+    RIFF = 'Riff Raff'
+    MAGENTA = 'Magenta'
+    COLUMBIA = 'Columbia'
+    SCOTT = 'Dr. Everett V. Scott'
+    ROCKY = 'Rocky Horror'
+    EDDIE = 'Eddie'
+    CRIM = 'The Criminologist'
+    TRANSY = 'Transylvanian'
+
+    EMCEE = 'Emcee'
+    TRIXIE = 'Trixie'
+
+    TECH = 'Tech'
+    LIGHTS = 'Lights'
+    PHOTOS = 'Photographer'
+
+class Casting(models.Model):
+    """
+    Represents a User being cast in a Role at an Event
+    """
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='castings')
+    profile = models.ForeignKey('userprofile.Profile', on_delete=models.CASCADE, related_name='castings')
+    role = models.CharField(
+        max_length=len(max(Role.__members__.keys(), key=len)),
+        choices=[(tag, tag.value) for tag in Role]
+    )

@@ -7,7 +7,7 @@ from django import forms
 # library
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 # app
-from .models import Event
+from events.models import Event
 
 class EventForm(forms.ModelForm):
 

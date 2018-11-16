@@ -29,6 +29,7 @@ class Profile(models.Model):
 
     # Public Profile
     image = ImageField(blank=True, upload_to=profile_image, verbose_name='Profile Photo')
+    full_name = models.CharField(max_length=128, blank=True)
     alt = models.CharField(max_length=128, blank=True, verbose_name='Stage Name')
     bio = models.TextField(max_length=500, blank=True, verbose_name='Public Bio')
     location = models.CharField(max_length=64, blank=True)
@@ -52,7 +53,18 @@ class Profile(models.Model):
         Assign profile attrs from new user form
         """
         self.birth_date = form.cleaned_data.get('birth_date')
+        self.full_name = ' '.join([form.cleaned_data.get(key, '') for key in (
+            'first_name',
+            'last_name',
+        )])
         self.alt = form.cleaned_data.get('alt')
+
+    @property
+    def name(self) -> str:
+        """
+        Returns the desired display name for the user
+        """
+        return self.alt or self.full_name
 
     def __str__(self):
         return self.user.username #pylint: disable=E1101

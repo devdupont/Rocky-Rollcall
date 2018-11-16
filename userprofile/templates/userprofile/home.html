@@ -4,13 +4,13 @@
     <div class="row">
         {% include 'userprofile/include/aside.html' with full_aside=1 %}
         <div class="col-md-8 col-xl-9 sections">
-            {% if user.profile.photos|length > 0 %}
+            {% if user.profile.photos.all|length > 0 %}
             <section>
                 {% include 'photos/include/photo_grid.html' with photos=user.profile.photos.all|slice:":6" col_size='col-6 col-sm-4' thumb_size='400x300' link_template='userprofile/include/grid_photo_link.html' %}
                 <a class="btn btn-primary" href="{% url 'user_photos' username=user.username %}">All Photos</a>
             </section>
             {% endif %}
-            {% if user.profile.managed_casts|length > 0 %}
+            {% if user.profile.managed_casts.all|length > 0 %}
             <section>
                 <h2>Member Casts</h2>
                 {% include 'castpage/include/cast_grid.html' with casts=user.profile.managed_casts.all col_size='col-6 col-lg-4' %}

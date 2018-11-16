@@ -5,7 +5,6 @@ class Command(BaseCommand):
     help = 'Cleans expired events'
 
     def handle(self, *args, **options):
-        # pylint: disable=E1101
         count = 0
         for event in Event.objects.all():
             if event.is_expired:

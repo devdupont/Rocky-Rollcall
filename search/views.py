@@ -4,7 +4,6 @@ Search views
 
 # django
 # from django.db.models import Q
-from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 # from django.contrib.auth.models import User
 # app
@@ -36,7 +35,7 @@ class CastSearchListView(ListView):
         name = self.request.POST.get('name') or self.request.GET.get('name')
         if not name:
             return []
-        return Cast.objects.filter(name__trigram_similar=name) # pylint: disable=E1101
+        return Cast.objects.filter(name__trigram_similar=name)
 
     def get_context_data(self, **kwargs) -> dict:
         """
@@ -49,6 +48,8 @@ class CastSearchListView(ListView):
             context['form'] = CastSearchForm()
         return context
 
-    # Enable POST requests for form submit
     def post(self, request, *args, **kwargs):
+        """
+        Enables POST requests for form submit
+        """
         return self.get(request, *args, **kwargs)

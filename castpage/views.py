@@ -7,20 +7,22 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic.list import ListView
 # Other apps
 from castadmin.forms import CastForm
 from events.views import EventListView
 from photos.views import PhotoGridView
+from userprofile.models import Profile
 # This app
 from castpage.models import Cast, Photo
 
-def cast_required(f) -> 'Callable':
+def cast_required(func) -> 'Callable':
     """
     Decorator to convert a slug to a cast object
     """
     def cast_view(request, slug: str, *args, **kwargs):
         cast = get_object_or_404(Cast, slug=slug)
-        return f(request, cast, *args, **kwargs)
+        return func(request, cast, *args, **kwargs)
     return cast_view
 
 @login_required
@@ -32,6 +34,7 @@ def cast_new(request):
         form = CastForm(request.POST, request.FILES)
         if form.is_valid():
             cast = form.save()
+            cast.members.add(request.user.profile)
             cast.managers.add(request.user.profile)
             cast.save()
             return redirect('cast_home', slug=cast.slug)
@@ -67,7 +70,46 @@ def cast_photo_detail(request, cast: Cast, pk: int):
         'show_management': cast.is_manager(request.user),
     })
 
-class CastEvents(EventListView):
+class CastBaseListView(ListView):
+    """
+    Pagination view for cast entities
+    """
+
+    @property
+    def cast(self) -> Cast:
+        """
+        The current cast to query
+        """
+        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
+        return cast
+
+    def get_context_data(self, **kwargs) -> dict:
+        """
+        Return render context
+        """
+        context = super().get_context_data(**kwargs)
+        cast = self.cast
+        context['cast'] = cast
+        context['show_management'] = cast.is_manager(self.request.user)
+        return context
+
+class CastMembers(CastBaseListView):
+    """
+    Pagination view for cast members
+    """
+
+    model = Profile
+    template_name = 'castpage/members.html'
+    paginate_by = 24
+    context_object_name = 'members'
+
+    def get_queryset(self) -> [Profile]:
+        """
+        Return all cast members
+        """
+        return self.cast.members.all()
+
+class CastEvents(EventListView, CastBaseListView):
     """
     Pagination view for future cast events
     """
@@ -77,23 +119,19 @@ class CastEvents(EventListView):
 
     def get_queryset(self) -> ['Event']:
         """
-        Filter queryset based on cast events
+        Return future cast events
         """
-        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
-        return cast.future_events
+        return self.cast.future_events
 
     def get_context_data(self, **kwargs) -> dict:
         """
         Return render context
         """
         context = super().get_context_data(**kwargs)
-        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
-        context['cast'] = cast
         context['show_cast'] = False
-        context['show_management'] = cast.is_manager(self.request.user)
         return context
 
-class CastPhotos(PhotoGridView):
+class CastPhotos(PhotoGridView, CastBaseListView):
     """
     Pagination view for cast photos
     """
@@ -103,17 +141,6 @@ class CastPhotos(PhotoGridView):
 
     def get_queryset(self) -> [Photo]:
         """
-        Filter queryset to cast photos
+        Return all cast photos
         """
-        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
-        return cast.photos.all()
-
-    def get_context_data(self, **kwargs) -> dict:
-        """
-        Return render context
-        """
-        context = super().get_context_data(**kwargs)
-        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
-        context['cast'] = cast
-        context['show_management'] = cast.is_manager(self.request.user)
-        return context
+        return self.cast.photos.all()

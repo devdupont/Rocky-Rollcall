@@ -1,0 +1,11 @@
+{% extends 'castpage/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Cast Members</h1>
+            {% include 'userprofile/include/profile_grid.html' with profiles=members %}
+            {% if is_paginated %}{% include 'include/pagination.html' %}{% endif %}
+        </div>
+    </div>
+{% endblock %}

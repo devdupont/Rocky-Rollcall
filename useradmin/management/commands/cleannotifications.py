@@ -5,7 +5,6 @@ class Command(BaseCommand):
     help = 'Cleans notifications marked as deleted'
 
     def handle(self, *args, **options):
-        # pylint: disable=E1101
         count = 0
         for notif in Notification.objects.all():
             if notif.deleted:

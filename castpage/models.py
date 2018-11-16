@@ -16,8 +16,6 @@ def sorl_delete(**kwargs):
 
 cleanup_pre_delete.connect(sorl_delete)
 
-nulls = {'default': None, 'blank': True}
-
 def cast_logo(instance, filename: str) -> str:
     """
     Generate cast logo filename from cast slug
@@ -43,12 +41,13 @@ class Cast(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
 
     managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')
+    members = models.ManyToManyField('userprofile.Profile', related_name='member_casts')
 
     # Social Links
-    external_url = models.URLField(**nulls, verbose_name='Existing Homepage')
-    facebook_url = models.URLField(**nulls, verbose_name='Facebook Group URL')
-    twitter_user = models.CharField(max_length=15, **nulls, verbose_name='Twitter Username')
-    instagram_user = models.CharField(max_length=30, **nulls, verbose_name='Instagram Username')
+    external_url = models.URLField(blank=True, verbose_name='Existing Homepage')
+    facebook_url = models.URLField(blank=True, verbose_name='Facebook Group URL')
+    twitter_user = models.CharField(max_length=15, blank=True, verbose_name='Twitter Username')
+    instagram_user = models.CharField(max_length=30, blank=True, verbose_name='Instagram Username')
 
     def save(self, *args, **kwargs):
         """
@@ -58,11 +57,28 @@ class Cast(models.Model):
         self.slug = text.slugify(self.name)
         super(Cast, self).save(*args, **kwargs)
 
-    def is_manager(self, user) -> bool:
+    def add_manager(self, profile: 'userprofile.Profile'):
+        """
+        Adds a new profile to managers or raises an error
+        """
+        if self.managers.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is already a manager of {self}')
+        if not self.members.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is not a member of {self}')
+        self.managers.add(profile)
+
+    def remove_manager(self, profile: 'userprofile.Profile'):
+        """
+        Remove a profile from managers
+        """
+        if not self.managers.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is not a manager or {self}')
+        self.managers.remove(profile) # pylint: disable=E1101
+
+    def is_manager(self, user: 'auth.User') -> bool:
         """
         Returns if a user manages a cast by primary key
         """
-        # pylint: disable=E1101
         return not user.is_anonymous and self.managers.filter(pk=user.profile.pk)
 
     @property
@@ -70,14 +86,29 @@ class Cast(models.Model):
         """
         Returns managers as a list of auth Users
         """
-        return [u.user for u in self.managers.all()] # pylint: disable=E1101
+        return [u.user for u in self.managers.all()]
+
+    def add_member(self, profile: 'userprofile.Profile'):
+        """
+        Adds a new profile to members or raises an error
+        """
+        if self.members.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is already a member of {self}')
+        self.members.add(profile)
+
+    def remove_member(self, profile: 'userprofile.Profile'):
+        """
+        Remove a profile from members
+        """
+        if not self.members.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is not a manager or {self}')
+        self.members.remove(profile) # pylint: disable=E1101
 
     @property
     def future_events(self) -> ['Event']:
         """
         Returns cast events happening today or later
         """
-        # pylint: disable=E1101
         return self.events.filter(cast=self, date__gte=date.today())
 
     @property

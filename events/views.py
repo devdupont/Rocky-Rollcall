@@ -83,7 +83,6 @@ class EventListView(ListView):
     model = Event
     paginate_by = 12
     context_object_name = 'events'
-    # pylint: disable=E1101
     queryset = Event.objects.filter(date__gte=date.today())
 
     def get_context_data(self, **kwargs) -> dict:

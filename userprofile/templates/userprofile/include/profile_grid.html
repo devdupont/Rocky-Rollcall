@@ -1,0 +1,11 @@
+<div class="profile-grid row">
+    {% for profile in profiles %}
+        <div class="{% if col_size %}{{ col_size }}{% else %}col-lg-3 col-md-4 col-sm-6 col-xs-12{% endif %}">
+            {% include 'userprofile/include/profile_stub.html' with profile=profile %}
+        </div>
+    {% empty %}
+        <div class="col">
+            <p>No users yet.</p>
+        </div>
+    {% endfor %}
+</div>

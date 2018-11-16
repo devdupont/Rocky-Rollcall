@@ -15,7 +15,7 @@ from notify.signals import notify
 from castadmin.forms import AddManagerForm, CastForm, CastPhotoForm, DeleteCastForm, PageSectionForm
 from castpage.models import Cast, PageSection, Photo
 
-def manager_required(f) -> 'Callable':
+def manager_required(func) -> 'Callable':
     """
     Decorator for views which require:
     1. An authenticated User
@@ -27,7 +27,7 @@ def manager_required(f) -> 'Callable':
         cast = get_object_or_404(Cast, slug=slug)
         if not cast.is_manager(request.user):
             return HttpResponseForbidden()
-        return f(request, cast, *args, **kwargs)
+        return func(request, cast, *args, **kwargs)
     return managed_view
 
 @manager_required
@@ -201,13 +201,13 @@ def managers_edit(request, cast: Cast):
             user = User.objects.filter(username=username)
             if user:
                 user = user[0]
-                if cast.is_manager(user):
-                    messages.info(request, f'{username} is already a manager')
-                else:
-                    cast.managers.add(user.profile)
+                try:
+                    cast.add_manager(user.profile)
                     notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
                                 verb='added', obj=user, target=cast, nf_type='cast_manager')
                     messages.success(request, f'{user.first_name} {user.last_name} has been added as a manager')
+                except ValueError as exc:
+                    messages.error(request, str(exc))
             else:
                 messages.error(request, f'Could not find an account for "{username}"')
             return redirect('cast_managers_edit', slug=cast.slug)
@@ -231,6 +231,9 @@ def managers_delete(request, cast: Cast, pk: int):
     else:
         notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
                     verb='removed', obj=user, target=cast, nf_type='cast_manager')
-        cast.managers.remove(user.profile)
-        messages.success(request, f'{user.username} is no longer a manager')
+        try:
+            cast.remove_manager(user.profile)
+            messages.success(request, f'{user.username} is no longer a manager')
+        except ValueError as exc:
+            messages.error(request, str(exc))
     return redirect('cast_managers_edit', slug=cast.slug)

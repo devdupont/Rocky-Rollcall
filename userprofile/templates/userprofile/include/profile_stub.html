@@ -1,0 +1,11 @@
+{% load thumbnail %}
+<div class="item-stub">
+    <a href="{% url 'user_profile' username=profile.user.username %}">
+        {% if profile.image %}
+            {% thumbnail profile.image "100x100" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
+        {% endif%}
+        <h4>{{ profile.name }}</h4>
+    </a>
+</div>
