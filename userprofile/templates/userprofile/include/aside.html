@@ -9,7 +9,7 @@
             {% else %}
                 <img src="{% static 'img/lips.png' %}" class="rounded-circle profile-image" width="200px" height="200px">
             {% endif %}
-            <a href="{% url 'user_profile' username=user.username %}"><h3>{% if user.profile.alt %}{{ user.profile.alt }}{% else %}{{ user.first_name }} {{ user.last_name }}{% endif %}</h3></a>
+            <a href="{% url 'user_profile' username=user.username %}"><h3>{{ user.profile.name }}</h3></a>
         </div>
     </section>
     <section class="row">

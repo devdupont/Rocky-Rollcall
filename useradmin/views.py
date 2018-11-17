@@ -89,6 +89,10 @@ def edit_user(request):
     if request.method == 'POST':
         form = EditUserForm(request.POST, instance=user)
         if form.is_valid():
+            user.profile.full_name = ' '.join([form.cleaned_data.get(key, '') for key in (
+                'first_name',
+                'last_name',
+            )])
             user = form.save()
             messages.success(request, 'User account updated')
             return redirect('user_settings')

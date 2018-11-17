@@ -9,9 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic.list import ListView
 # library
 from notify.signals import notify
 # app
+from userprofile.models import Profile
 from castadmin.forms import AddManagerForm, CastForm, CastPhotoForm, DeleteCastForm, PageSectionForm
 from castpage.models import Cast, PageSection, Photo
 
@@ -197,13 +199,18 @@ def approve_request(request, cast: Cast, username: str):
     user = get_object_or_404(User, username=username)
     try:
         cast.remove_member_request(user.profile)
-        cast.add_member(user.profile)
-        notify.send(request.user, recipient=user, actor=request.user,
-                    verb='approved', obj=user, target=cast, nf_type='cast_member_result')
-        messages.success(request, f'{user.profile.name} is now a member of {cast}')
     except ValueError as exc:
         messages.error(request, str(exc))
-    return redirect('cast_members', slug=cast.slug)
+    else:
+        try:
+            cast.add_member(user.profile)
+        except ValueError as exc:
+            messages.error(request, str(exc))
+        else:
+            notify.send(request.user, recipient=user, actor=request.user,
+                        verb='approved', obj=user, target=cast, nf_type='cast_member_result')
+            messages.success(request, f'{user.profile.name} is now a member of {cast}')
+    return redirect('cast_member_requests', slug=cast.slug)
 
 @manager_required
 def deny_request(request, cast: Cast, username: str):
@@ -213,12 +220,47 @@ def deny_request(request, cast: Cast, username: str):
     user = get_object_or_404(User, username=username)
     try:
         cast.remove_member_request(user.profile)
-        notify.send(request.user, recipient=user, actor=request.user,
-                    verb='denied', obj=user, target=cast, nf_type='cast_member_result')
-        messages.success(request, f'Request from {user} has been denied')
     except ValueError as exc:
         messages.error(request, str(exc))
-    return redirect('cast_members', slug=cast.slug)
+    else:
+        notify.send(request.user, recipient=user, actor=request.user,
+                    verb='denied', obj=user, target=cast, nf_type='cast_member_result')
+        messages.success(request, f'Request from {user.profile.name} has been denied')
+    return redirect('cast_member_requests', slug=cast.slug)
+
+@manager_required
+def block_user(request, cast: Cast, username: str):
+    """
+    Blocks a user from the cast
+    """
+    user = get_object_or_404(User, username=username)
+    try:
+        if cast.has_requested_membership(user):
+            cast.remove_member_request(user.profile)
+        cast.block_user(user.profile)
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    else:
+        notify.send(request.user, recipient=user, actor=request.user,
+                    verb='blocked', obj=user, target=cast, nf_type='cast_blocked')
+        messages.success(request, f'{user.profile.name} has been blocked from {cast}')
+    return redirect('cast_blocked_users', slug=cast.slug)
+
+@manager_required
+def unblock_user(request, cast: Cast, username: str):
+    """
+    Unblocks a user from the cast
+    """
+    user = get_object_or_404(User, username=username)
+    try:
+        cast.unblock_user(user.profile)
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    else:
+        notify.send(request.user, recipient=user, actor=request.user,
+                    verb='unblocked', obj=user, target=cast, nf_type='cast_blocked')
+        messages.success(request, f'{user.profile.name} has been unblocked from {cast}')
+    return redirect('cast_blocked_users', slug=cast.slug)
 
 @manager_required
 def managers_edit(request, cast: Cast):
@@ -234,11 +276,12 @@ def managers_edit(request, cast: Cast):
                 user = user[0]
                 try:
                     cast.add_manager(user.profile)
+                except ValueError as exc:
+                    messages.error(request, str(exc))
+                else:
                     notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
                                 verb='added', obj=user, target=cast, nf_type='cast_manager')
                     messages.success(request, f'{user.profile.name} has been added as a manager')
-                except ValueError as exc:
-                    messages.error(request, str(exc))
             else:
                 messages.error(request, f'Could not find an account for "{username}"')
             return redirect('cast_managers_edit', slug=cast.slug)
@@ -260,11 +303,75 @@ def managers_delete(request, cast: Cast, pk: int):
     elif request.user == user:
         messages.error(request, 'You cannot remove yourself')
     else:
-        notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
-                    verb='removed', obj=user, target=cast, nf_type='cast_manager')
         try:
             cast.remove_manager(user.profile)
-            messages.success(request, f'{user.username} is no longer a manager')
         except ValueError as exc:
             messages.error(request, str(exc))
+        else:
+            notify.send(request.user, recipient_list=cast.managers_as_user+[user], actor=request.user,
+                        verb='removed', obj=user, target=cast, nf_type='cast_manager')
+            messages.success(request, f'{user.username} is no longer a manager')
     return redirect('cast_managers_edit', slug=cast.slug)
+
+class CastManagementListView(ListView):
+    """
+    Base class to provide manager-only list views
+    """
+
+    model = Profile
+    paginate_by = 24
+    context_object_name = 'profiles'
+    profile_buttons = None
+
+    @property
+    def cast(self) -> Cast:
+        """
+        The current cast to query
+        """
+        cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
+        return cast
+
+    def get_context_data(self, **kwargs) -> dict:
+        """
+        Return render context
+        """
+        context = super().get_context_data(**kwargs)
+        context['cast'] = self.cast
+        context['profile_buttons'] = self.profile_buttons
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Only allow managers to view the list
+        """
+        if not self.cast.is_manager(request.user):
+            return HttpResponseForbidden()
+        return super().dispatch(request, *args, **kwargs)
+
+class MemberRequests(CastManagementListView):
+    """
+    Pagination view for cast membership requests
+    """
+
+    template_name = 'castadmin/member_requests.html'
+    profile_buttons = 'castadmin/include/buttons/member_requests.html'
+
+    def get_queryset(self) -> [Profile]:
+        """
+        Return all users requesting membership
+        """
+        return sorted(self.cast.member_requests.all(), key=lambda x: x.name.lower())
+
+class BlockedUsers(CastManagementListView):
+    """
+    Pagination view for blocked users
+    """
+
+    template_name = 'castadmin/blocked_users.html'
+    profile_buttons = 'castadmin/include/buttons/blocked_users.html'
+
+    def get_queryset(self) -> [Profile]:
+        """
+        Return all blocked users
+        """
+        return sorted(self.cast.blocked.all(), key=lambda x: x.name.lower())

@@ -8,7 +8,19 @@
             <a href="{% url 'event_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="far fa-calendar-alt"></i> New Event</a>
             <a href="{% url 'cast_photo_new' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="far fa-image"></i> New Photo</a>
             <a href="{% url 'cast_edit' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-edit"></i> Edit Cast</a>
+        </div>
+    </div>
+    <h2>Cast Members</h2>
+    <div class="row button-grid">
+        <div class="col">
+            <a href="{% url 'cast_member_requests' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="far fa-hand-paper"></i> {{ cast.member_requests.all|length }} Member Requests</a>
             <a href="{% url 'cast_managers_edit' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-users"></i> Edit Managers</a>
+            <a href="{% url 'cast_blocked_users' slug=cast.slug %}" class="btn btn-primary" role="button"><i class="fas fa-ban"></i> Blocked Users</a>
+        </div>
+    </div>
+    <h2>Danger Zone</h2>
+    <div class="row button-grid">
+        <div class="col">
             <a href="{% url 'cast_delete' slug=cast.slug %}" class="btn btn-danger" role="button"><i class="far fa-trash-alt"></i> Delete Cast</a>
         </div>
     </div>

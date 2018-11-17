@@ -1,11 +1,14 @@
-{% load thumbnail %}
+{% load static thumbnail %}
 <div class="item-stub">
     <a href="{% url 'user_profile' username=profile.user.username %}">
         {% if profile.image %}
             {% thumbnail profile.image "100x100" crop="center" as im %}
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                <img src="{{ im.url }}" class="rounded-circle profile-image" width="{{ im.width }}" height="{{ im.height }}">
             {% endthumbnail %}
+        {% else %}
+            <img src="{% static 'img/lips.png' %}" class="rounded-circle profile-image" width="100px" height="100px">
         {% endif%}
         <h4>{{ profile.name }}</h4>
+        {% if profile_buttons %}{% include profile_buttons %}{% endif %}
     </a>
 </div>

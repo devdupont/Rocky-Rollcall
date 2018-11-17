@@ -55,9 +55,9 @@ def cast_home(request, cast: Cast):
     return render(request, 'castpage/home.html', {
         'cast': cast,
         'show_management': cast.is_manager(request.user),
-        'is_member': bool(cast.members.filter(pk=request.user.profile.pk)),
-        'is_blocked': bool(cast.blocked.filter(pk=request.user.profile.pk)),
-        'member_requested': bool(cast.member_requests.filter(pk=request.user.profile.pk)),
+        'is_member': cast.is_member(request.user),
+        'is_blocked': cast.is_blocked(request.user),
+        'has_requested_membership': cast.has_requested_membership(request.user),
         'tinylist': True,
     })
 
@@ -141,13 +141,22 @@ class CastMembers(CastBaseListView):
     model = Profile
     template_name = 'castpage/members.html'
     paginate_by = 24
-    context_object_name = 'members'
+    context_object_name = 'profiles'
 
     def get_queryset(self) -> [Profile]:
         """
         Return all cast members
         """
-        return self.cast.members.all()
+        return sorted(self.cast.members.all(), key=lambda x: x.name.lower())
+
+    def get_context_data(self, **kwargs) -> dict:
+        """
+        Return render context
+        """
+        context = super().get_context_data(**kwargs)
+        if context['show_management']:
+            context['profile_buttons'] = 'castadmin/include/buttons/members.html'
+        return context
 
 class CastEvents(EventListView, CastBaseListView):
     """

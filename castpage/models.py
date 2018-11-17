@@ -72,7 +72,7 @@ class Cast(models.Model):
 
     def is_manager(self, user: 'auth.User') -> bool:
         """
-        Returns if a user manages a cast by primary key
+        Returns True if a user is a cast manager
         """
         return not user.is_anonymous and self.managers.filter(pk=user.profile.pk)
 
@@ -103,6 +103,12 @@ class Cast(models.Model):
             raise ValueError(f'{profile} has not requested to join {self}')
         self.member_requests.remove(profile) # pylint: disable=E1101
 
+    def has_requested_membership(self, user: 'auth.User') -> bool:
+        """
+        Returns True if a user has requested cast membership
+        """
+        return not user.is_anonymous and self.member_requests.filter(pk=user.profile.pk)
+
     def add_member(self, profile: 'userprofile.Profile'):
         """
         Adds a new profile to members or raises an error
@@ -120,6 +126,36 @@ class Cast(models.Model):
         if not self.members.filter(pk=profile.pk):
             raise ValueError(f'{profile} is not a member or {self}')
         self.members.remove(profile) # pylint: disable=E1101
+
+    def is_member(self, user: 'auth.User') -> bool:
+        """
+        Returns True if a user is a member of the cast
+        """
+        return not user.is_anonymous and self.members.filter(pk=user.profile.pk)
+
+    def block_user(self, profile: 'userprofile.Profile'):
+        """
+        Adds a new profile to blocked users or raises an error
+        """
+        if self.managers.filter(pk=profile.pk):
+            raise ValueError(f'{profile} cannot be blocked because they are a manager of {self}')
+        if self.blocked.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is already blocked from {self}')
+        self.blocked.add(profile)
+
+    def unblock_user(self, profile: 'userprofile.Profile'):
+        """
+        Remove a profile from blocked users
+        """
+        if not self.blocked.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is not blocked from {self}')
+        self.blocked.remove(profile) # pylint: disable=E1101
+
+    def is_blocked(self, user: 'auth.User') -> bool:
+        """
+        Returns True if a user is blocked from the cast
+        """
+        return not user.is_anonymous and self.blocked.filter(pk=user.profile.pk)
 
     @property
     def future_events(self) -> ['Event']:
