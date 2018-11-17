@@ -19,17 +19,31 @@
                 <div class="col">
                     <h3>Upcoming Events</h3>
                     {% include 'events/include/event_list.html' with events=cast.upcoming_events %}
-                    <a class="btn btn-primary" href="{% url 'cast_events' slug=cast.slug %}">All Upcoming Events</a>
+                    <a class="btn btn-primary" href="{% url 'cast_events' slug=cast.slug %}"><i class="far fa-calendar-alt"></i> All Upcoming Events</a>
                 </div>
             </div>
             {% if cast.photos.all|length > 0 %}
             <div class="row">
                 <div class="col">
                     {% include 'photos/include/photo_grid.html' with photos=cast.photos.all|slice:":6" col_size='col-6 col-sm-4 col-md-6' thumb_size='200x150' link_template='castpage/include/grid_photo_link.html' %}
-                    <a class="btn btn-primary" href="{% url 'cast_photos' slug=cast.slug %}">All Photos</a>
+                    <a class="btn btn-primary" href="{% url 'cast_photos' slug=cast.slug %}"><i class="far fa-image"></i> All Photos</a>
                 </div>
             </div>
             {% endif %}
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary" href="{% url 'cast_members' slug=cast.slug %}"><i class="fas fa-users"></i> Cast Members</a>
+                    {% if request.user.is_authenticated and not is_blocked %}
+                        {% if member_requested %}
+                        <a class="btn btn-primary" disabled><i class="far fa-clock"></i> Requested</a>
+                        {% elif is_member %}
+                        <a class="btn btn-danger" href="{% url 'cast_member_leave' slug=cast.slug %}"><i class="far fa-trash-alt"></i> Leave Cast</a>
+                        {% else %}
+                        <a class="btn btn-primary" href="{% url 'cast_member_join' slug=cast.slug %}"><i class="fas fa-plus"></i> Request to Join</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         </aside>
         <div class="col-md-8 sections">
             <section class="col">

@@ -1,0 +1,5 @@
+{% extends 'notifications/basenotif.html' %}
+
+{% block message %}
+    <a class="btn btn-primary" href="{% url 'cast_member_request_approve' slug=notification.target.slug username=notification.actor.username %}">Approve</a> <a class="btn btn-primary" href="{% url 'cast_member_request_deny' slug=notification.target.slug username=notification.actor.username %}">Deny</a> <a href="{% url 'user_profile' username=notification.actor.username %}">{{ notification.actor }}</a> requested to join <a href="{% url 'cast_home' slug=notification.target.slug %}">{{ notification.target }}
+{% endblock %}

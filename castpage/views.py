@@ -4,11 +4,13 @@ View logic for cast page
 
 # Django
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.list import ListView
 # Other apps
+from notify.signals import notify
 from castadmin.forms import CastForm
 from events.views import EventListView
 from photos.views import PhotoGridView
@@ -53,8 +55,39 @@ def cast_home(request, cast: Cast):
     return render(request, 'castpage/home.html', {
         'cast': cast,
         'show_management': cast.is_manager(request.user),
+        'is_member': bool(cast.members.filter(pk=request.user.profile.pk)),
+        'is_blocked': bool(cast.blocked.filter(pk=request.user.profile.pk)),
+        'member_requested': bool(cast.member_requests.filter(pk=request.user.profile.pk)),
         'tinylist': True,
     })
+
+@login_required
+@cast_required
+def request_to_join(request, cast: Cast):
+    """
+    Requests that the user join the cast
+    """
+    try:
+        cast.add_member_request(request.user.profile)
+        notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
+                    verb='requested', target=cast, nf_type='cast_member_request')
+        messages.success(request, f'A request has been sent to {cast} managers')
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    return redirect('cast_home', slug=cast.slug)
+
+@login_required
+@cast_required
+def leave_cast(request, cast: Cast):
+    """
+    Remove the user from the cast
+    """
+    try:
+        cast.remove_member(request.user.profile)
+        messages.success(request, f'You have left {cast}')
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    return redirect('cast_home', slug=cast.slug)
 
 @cast_required
 def cast_photo_detail(request, cast: Cast, pk: int):
@@ -83,6 +116,13 @@ class CastBaseListView(ListView):
         cast = get_object_or_404(Cast, slug=self.kwargs['slug'])
         return cast
 
+    @property
+    def requested_by_manager(self) -> bool:
+        """
+        Returns True if the page was requested by a cast manager
+        """
+        return self.cast.is_manager(self.request.user)
+
     def get_context_data(self, **kwargs) -> dict:
         """
         Return render context
@@ -90,7 +130,7 @@ class CastBaseListView(ListView):
         context = super().get_context_data(**kwargs)
         cast = self.cast
         context['cast'] = cast
-        context['show_management'] = cast.is_manager(self.request.user)
+        context['show_management'] = self.requested_by_manager
         return context
 
 class CastMembers(CastBaseListView):

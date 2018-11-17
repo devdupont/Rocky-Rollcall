@@ -1,0 +1,5 @@
+{% extends 'notifications/basenotif.html' %}
+
+{% block message %}
+    Your request to join <a href="{% url 'cast_home' slug=notification.target.slug %}">{{ notification.target }}</a> has been {{ notification.verb }}
+{% endblock %}

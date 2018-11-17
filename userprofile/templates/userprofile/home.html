@@ -10,10 +10,10 @@
                 <a class="btn btn-primary" href="{% url 'user_photos' username=user.username %}">All Photos</a>
             </section>
             {% endif %}
-            {% if user.profile.managed_casts.all|length > 0 %}
+            {% if user.profile.member_casts.all|length > 0 %}
             <section>
                 <h2>Member Casts</h2>
-                {% include 'castpage/include/cast_grid.html' with casts=user.profile.managed_casts.all col_size='col-6 col-lg-4' %}
+                {% include 'castpage/include/cast_grid.html' with casts=user.profile.member_casts.all col_size='col-6 col-lg-4' %}
             </section>
             {% endif %}
         </div>

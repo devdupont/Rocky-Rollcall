@@ -17,6 +17,8 @@ urlpatterns = [
     path(_s+'photo/<int:pk>/remove/', views.photo_delete, name='cast_photo_delete'),
     path(_s+'edit', views.cast_edit, name='cast_edit'),
     path(_s+'delete', views.cast_delete, name='cast_delete'),
+    path(_s+'request/<slug:username>/approve', views.approve_request, name='cast_member_request_approve'),
+    path(_s+'request/<slug:username>/deny', views.deny_request, name='cast_member_request_deny'),
     path(_s+'managers', views.managers_edit, name='cast_managers_edit'),
     path(_s+'managers/delete/<int:pk>', views.managers_delete, name='cast_managers_delete'),
 ]

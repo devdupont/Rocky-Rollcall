@@ -6,15 +6,8 @@ from datetime import date
 from django.db import models
 from django.utils import text, timezone
 from sorl.thumbnail import ImageField
-from django_cleanup.signals import cleanup_pre_delete
 from tinymce.models import HTMLField
 from photos.models import PhotoBase
-
-def sorl_delete(**kwargs):
-    from sorl.thumbnail import delete
-    delete(kwargs['file'])
-
-cleanup_pre_delete.connect(sorl_delete)
 
 def cast_logo(instance, filename: str) -> str:
     """
@@ -42,6 +35,8 @@ class Cast(models.Model):
 
     managers = models.ManyToManyField('userprofile.Profile', related_name='managed_casts')
     members = models.ManyToManyField('userprofile.Profile', related_name='member_casts')
+    member_requests = models.ManyToManyField('userprofile.Profile', related_name='requested_casts')
+    blocked = models.ManyToManyField('userprofile.Profile', related_name='blocked_casts')
 
     # Social Links
     external_url = models.URLField(blank=True, verbose_name='Existing Homepage')
@@ -88,6 +83,26 @@ class Cast(models.Model):
         """
         return [u.user for u in self.managers.all()]
 
+    def add_member_request(self, profile: 'userprofile.Profile'):
+        """
+        Adds a new profile to membership requests or raises an error
+        """
+        if self.members.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is already a member of {self}')
+        if self.member_requests.filter(pk=profile.pk):
+            raise ValueError(f'{profile} has already requested to join {self}')
+        if self.blocked.filter(pk=profile.pk):
+            raise ValueError(f'{profile} is blocked from joining {self}')
+        self.member_requests.add(profile)
+
+    def remove_member_request(self, profile: 'userprofile.Profile'):
+        """
+        Removes a profile from membership requests
+        """
+        if not self.member_requests.filter(pk=profile.pk):
+            raise ValueError(f'{profile} has not requested to join {self}')
+        self.member_requests.remove(profile) # pylint: disable=E1101
+
     def add_member(self, profile: 'userprofile.Profile'):
         """
         Adds a new profile to members or raises an error
@@ -100,8 +115,10 @@ class Cast(models.Model):
         """
         Remove a profile from members
         """
+        if self.managers.filter(pk=profile.pk):
+            raise ValueError(f'{profile} cannot be removed because they are a manager of {self}')
         if not self.members.filter(pk=profile.pk):
-            raise ValueError(f'{profile} is not a manager or {self}')
+            raise ValueError(f'{profile} is not a member or {self}')
         self.members.remove(profile) # pylint: disable=E1101
 
     @property

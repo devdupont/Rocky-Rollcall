@@ -190,6 +190,37 @@ def photo_delete(request, cast: Cast, pk: int):
     return redirect('cast_home', slug=cast.slug)
 
 @manager_required
+def approve_request(request, cast: Cast, username: str):
+    """
+    Approves a cast membership request
+    """
+    user = get_object_or_404(User, username=username)
+    try:
+        cast.remove_member_request(user.profile)
+        cast.add_member(user.profile)
+        notify.send(request.user, recipient=user, actor=request.user,
+                    verb='approved', obj=user, target=cast, nf_type='cast_member_result')
+        messages.success(request, f'{user.profile.name} is now a member of {cast}')
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    return redirect('cast_members', slug=cast.slug)
+
+@manager_required
+def deny_request(request, cast: Cast, username: str):
+    """
+    Denies a cast membership request
+    """
+    user = get_object_or_404(User, username=username)
+    try:
+        cast.remove_member_request(user.profile)
+        notify.send(request.user, recipient=user, actor=request.user,
+                    verb='denied', obj=user, target=cast, nf_type='cast_member_result')
+        messages.success(request, f'Request from {user} has been denied')
+    except ValueError as exc:
+        messages.error(request, str(exc))
+    return redirect('cast_members', slug=cast.slug)
+
+@manager_required
 def managers_edit(request, cast: Cast):
     """
     Cast manager list and add page
@@ -205,7 +236,7 @@ def managers_edit(request, cast: Cast):
                     cast.add_manager(user.profile)
                     notify.send(request.user, recipient_list=cast.managers_as_user, actor=request.user,
                                 verb='added', obj=user, target=cast, nf_type='cast_manager')
-                    messages.success(request, f'{user.first_name} {user.last_name} has been added as a manager')
+                    messages.success(request, f'{user.profile.name} has been added as a manager')
                 except ValueError as exc:
                     messages.error(request, str(exc))
             else:
