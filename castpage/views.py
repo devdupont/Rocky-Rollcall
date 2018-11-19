@@ -58,7 +58,6 @@ def cast_home(request, cast: Cast):
         'is_member': cast.is_member(request.user),
         'is_blocked': cast.is_blocked(request.user),
         'has_requested_membership': cast.has_requested_membership(request.user),
-        'tinylist': True,
     })
 
 @login_required

@@ -10,5 +10,4 @@ def home(request):
         'casts': Cast.objects.all(),
         'calendar': get_upcoming_events(),
         'show_cast': True,
-        'tinylist': True,
     })

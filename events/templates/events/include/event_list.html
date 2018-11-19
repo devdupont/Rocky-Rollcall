@@ -1,10 +1,6 @@
 <div class="event-list">
     {% for event in events %}
-        {% if tinylist %}
-            {% include 'events/include/event_short.html' with event=event %}
-        {% else %}
-            {% include 'events/include/event.html' with event=event %}
-        {% endif %}
+        {% include 'events/include/event_stub.html' %}
     {% empty %}
         No events yet.
     {% endfor %}
