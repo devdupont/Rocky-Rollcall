@@ -235,7 +235,9 @@ def block_user(request, cast: Cast, username: str):
     """
     user = get_object_or_404(User, username=username)
     try:
-        if cast.has_requested_membership(user):
+        if cast.is_member(user):
+            cast.remove_member(user.profile)
+        elif cast.has_requested_membership(user):
             cast.remove_member_request(user.profile)
         cast.block_user(user.profile)
     except ValueError as exc:

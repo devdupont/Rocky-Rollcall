@@ -1,0 +1,6 @@
+<div class="casting">
+    <h4>{{ casting.role_tag }} - <a href="{% url 'user_profile' username=casting.profile.user.username %}">{{ casting.profile.name }}</a></h4>
+    {% if form %}
+    <a class="btn btn-danger" href="{% url 'casting_delete' pk=casting.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
+    {% endif %}
+</div>

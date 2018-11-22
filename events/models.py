@@ -4,10 +4,10 @@ Models to manage calendar events
 
 # stdlib
 from datetime import date, timedelta
-from enum import Enum
 # django
 from django.db import models
 from django.utils import timezone
+from django_enumfield import enum
 
 EXPIRES_AFTER = 90 # days
 
@@ -58,29 +58,50 @@ def get_upcoming_events(days: int = 14, limit: int = 12, cast: int = None) -> di
             calendar[day] = [event]
     return calendar
 
-class Role(Enum):
+class Role(enum.Enum):
     """
     Roles performed at an event
     """
 
-    FRANK = 'Dr. Frank-N-Furter'
-    JANET = 'Janet Weiss'
-    BRAD = 'Brad Majors'
-    RIFF = 'Riff Raff'
-    MAGENTA = 'Magenta'
-    COLUMBIA = 'Columbia'
-    SCOTT = 'Dr. Everett V. Scott'
-    ROCKY = 'Rocky Horror'
-    EDDIE = 'Eddie'
-    CRIM = 'The Criminologist'
-    TRANSY = 'Transylvanian'
+    FRANK = 1
+    JANET = 2
+    BRAD = 3
+    RIFF = 4
+    MAGENTA = 5
+    COLUMBIA = 6
+    SCOTT = 7
+    ROCKY = 8
+    EDDIE = 9
+    CRIM = 10
+    TRANSY = 11
 
-    EMCEE = 'Emcee'
-    TRIXIE = 'Trixie'
+    EMCEE = 20
+    TRIXIE = 21
 
-    TECH = 'Tech'
-    LIGHTS = 'Lights'
-    PHOTOS = 'Photographer'
+    TECH = 30
+    LIGHTS = 31
+    PHOTOS = 32
+
+    labels = {
+        FRANK: 'Dr. Frank-N-Furter',
+        JANET: 'Janet Weiss',
+        BRAD: 'Brad Majors',
+        RIFF: 'Riff Raff',
+        MAGENTA: 'Magenta',
+        COLUMBIA: 'Columbia',
+        SCOTT: 'Dr. Everett V. Scott',
+        ROCKY: 'Rocky Horror',
+        EDDIE: 'Eddie',
+        CRIM: 'The Criminologist',
+        TRANSY: 'Transylvanian',
+
+        EMCEE: 'Emcee',
+        TRIXIE: 'Trixie',
+
+        TECH: 'Tech',
+        LIGHTS: 'Lights',
+        PHOTOS: 'Photographer',
+    }
 
 class Casting(models.Model):
     """
@@ -89,7 +110,11 @@ class Casting(models.Model):
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='castings')
     profile = models.ForeignKey('userprofile.Profile', on_delete=models.CASCADE, related_name='castings')
-    role = models.CharField(
-        max_length=len(max(Role.__members__.keys(), key=len)),
-        choices=[(tag, tag.value) for tag in Role]
-    )
+    role = enum.EnumField(Role)
+
+    @property
+    def role_tag(self):
+        return Role.get(self.role)
+
+    class Meta:
+        ordering = ['role']

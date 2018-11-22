@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block headers %}
+    {% include 'castpage/include/headers.html' %}
+{% endblock %}
+
+{% block header %}
+    {% include 'castpage/include/header.html' with cast=event.cast %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-4">
+            <h1>{{ event.name }}</h1>
+            <p>{{ event.date }} - {{ event.start_time }}</p>
+            <p>@ <a href="https://www.google.com/maps/search/{{ event.venue|urlencode }}">{{ event.venue }}</a></p>
+            <p>{{ event.description }}</p>
+        </div>
+        <div class="col-lg-4">
+            <h2>Casting</h2>
+            {% for casting in event.castings.all %}
+                {% include 'events/include/casting.html' %}
+            {% endfor %}
+            {% if form %}
+            {% include 'include/form.html' with form=form submit_text='Add Casting' %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

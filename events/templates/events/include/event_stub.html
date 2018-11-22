@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="col event-details">
-        <h4>{{ event.name }}</h4>
+        <h4><a href="{% url 'event_detail' pk=event.pk %}">{{ event.name }}</a></h4>
         <div>@ <a href="https://www.google.com/maps/search/{{ event.venue|urlencode }}">{{ event.venue }}</a></div>
         {% if show_cast %}<div>By <a href="{% url 'cast_home' slug=event.cast.slug %}">{{ event.cast.name }}</a></div>{% endif %}
         {% if show_management %}

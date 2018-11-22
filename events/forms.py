@@ -7,7 +7,7 @@ from django import forms
 # library
 from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 # app
-from events.models import Event
+from events.models import Casting, Event
 
 class EventForm(forms.ModelForm):
 
@@ -22,3 +22,15 @@ class EventForm(forms.ModelForm):
             'date': DatePickerInput(format='%Y-%m-%d'),
             'start_time': TimePickerInput(),
         }
+
+class CastingForm(forms.ModelForm):
+
+    class Meta:
+        model = Casting
+        fields = ('profile', 'role')
+
+    def __init__(self, *args, **kwargs):
+        cast = kwargs.pop('cast')
+        super().__init__(*args, **kwargs)
+        if cast:
+            self.fields['profile'].queryset = cast.members.all()

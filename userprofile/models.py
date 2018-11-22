@@ -66,8 +66,11 @@ class Profile(models.Model):
         """
         return self.alt or self.full_name
 
-    def __str__(self):
-        return self.user.username #pylint: disable=E1101
+    def __str__(self) -> str:
+        return self.name
+
+    def __repr__(self) -> str:
+        return f'<Profile {self.name} - {self.user.username}>'
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
