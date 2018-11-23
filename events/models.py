@@ -112,9 +112,19 @@ class Casting(models.Model):
     profile = models.ForeignKey('userprofile.Profile', on_delete=models.CASCADE, related_name='castings')
     role = enum.EnumField(Role)
 
-    @property
-    def role_tag(self):
-        return Role.get(self.role)
-
     class Meta:
         ordering = ['role']
+
+    @property
+    def role_tag(self) -> Role:
+        """
+        Returns the role as the Role enum
+        """
+        return Role.get(self.role)
+
+    @property
+    def show_picture(self) -> bool:
+        """
+        Returns True if the casting is a non-tech role
+        """
+        return self.role < 30

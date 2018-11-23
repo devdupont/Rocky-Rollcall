@@ -9,19 +9,19 @@
 {% endblock %}
 
 {% block content %}
+    <h1>{{ event.name }}</h1>
     <div class="row">
         <div class="col-lg-4">
-            <h1>{{ event.name }}</h1>
-            <p>{{ event.date }} - {{ event.start_time }}</p>
-            <p>@ <a href="https://www.google.com/maps/search/{{ event.venue|urlencode }}">{{ event.venue }}</a></p>
+            <h3>{{ event.date }}</h3>
+            <h3>{{ event.start_time|date:'g:i A' }}</h3>
+            <h3><a href="https://www.google.com/maps/search/{{ event.venue|urlencode }}">{{ event.venue }}</a></h3>
             <p>{{ event.description }}</p>
         </div>
-        <div class="col-lg-4">
-            <h2>Casting</h2>
-            {% for casting in event.castings.all %}
-                {% include 'events/include/casting.html' %}
-            {% endfor %}
+        <div class="col-lg-8">
+            <h2>Cast</h2>
+            {% include 'events/include/casting_grid.html' with castings=event.castings.all %}
             {% if form %}
+            <h2>Add Casting</h2>
             {% include 'include/form.html' with form=form submit_text='Add Casting' %}
             {% endif %}
         </div>

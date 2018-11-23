@@ -27,7 +27,7 @@ class CastingForm(forms.ModelForm):
 
     class Meta:
         model = Casting
-        fields = ('profile', 'role')
+        fields = ('role', 'profile')
 
     def __init__(self, *args, **kwargs):
         cast = kwargs.pop('cast')

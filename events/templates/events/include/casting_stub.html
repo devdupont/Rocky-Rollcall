@@ -1,0 +1,18 @@
+{% load thumbnail %}
+<div class="casting-stub row">
+    {% if casting.show_picture %}
+    <div class="col-auto casting-image">
+        {% thumbnail casting.profile.image "100x100" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+    </div>
+    {% endif %}
+    <div class="col">
+        <h4>{{ casting.role_tag }}
+        {% if casting.show_picture %}</h4><h4>{% else %} - {% endif %}
+        <a href="{% url 'user_profile' username=casting.profile.user.username %}">{{ casting.profile.name }}</a></h4>
+        {% if form %}
+        <a class="btn btn-danger" href="{% url 'casting_delete' pk=casting.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
+        {% endif %}
+    </div>
+</div>

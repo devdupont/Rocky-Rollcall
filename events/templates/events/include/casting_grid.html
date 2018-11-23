@@ -1,0 +1,11 @@
+<div class="casting-grid row">
+    {% for casting in castings %}
+        <div class="{% if col_size %}{{ col_size }}{% else %}col-md-6{% endif %}">
+            {% include 'events/include/casting_stub.html' %}
+        </div>
+    {% empty %}
+        <div class="col">
+            <p>No castings yet.</p>
+        </div>
+    {% endfor %}
+</div>

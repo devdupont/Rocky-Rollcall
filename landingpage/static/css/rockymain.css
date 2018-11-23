@@ -114,6 +114,17 @@ aside {
     /* width: 40%; */
 }
 
+.casting-stub {
+    background-color: #303030;
+    margin: 5px 0px 5px 0px;
+    padding: 10px 5px 5px 5px;
+}
+
+.casting-image {
+    margin: 0px;
+    padding: 0px;
+}
+
 .calendar-header {
     border-bottom: 5px solid;
     border-bottom-color: #6E0500;
