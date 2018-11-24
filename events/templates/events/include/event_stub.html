@@ -1,5 +1,15 @@
 
 <div class="event row">
+    {% if time_only %}
+    <div class="col-auto text-center event-label-time">
+        {% if event.start_time.minute %}
+        <h4>{{ event.start_time|date:'g' }}<br/>{{ event.start_time|date:'i' }}</h4>
+        {% else %}
+        <h2>{{ event.start_time|date:'g' }}</h2>
+        {% endif %}
+        <br/><h6>{{ event.start_time|date:'A' }}</h6>
+    </div>
+    {% else %}
     <div class="col-auto flex-column d-flex text-center event-label">
         <div class="row flex-grow-1">
             <div class="col event-label-calendar">
@@ -8,10 +18,16 @@
         </div>
         <div class="row flex-grow-1">
             <div class="col event-label-time">
-                <h4>{{ event.start_time|date:'g:i' }}</h4><h6>{{ event.start_time|date:'A' }}</h6>
+                {% if event.start_time.minute %}
+                <h4>{{ event.start_time|date:'g:i' }}</h4>
+                {% else %}
+                <h2>{{ event.start_time|date:'g' }}</h2>
+                {% endif %}
+                <h6>{{ event.start_time|date:'A' }}</h6>
             </div>
         </div>
     </div>
+    {% endif %}
     <div class="col event-details">
         <h4><a href="{% url 'event_detail' pk=event.pk %}">{{ event.name }}</a></h4>
         <div>@ <a href="https://www.google.com/maps/search/{{ event.venue|urlencode }}">{{ event.venue }}</a></div>

@@ -175,11 +175,7 @@ aside {
     padding: 3px 5px 3px 5px;
 }
 
-.event-label-time h4 {
-    display: inline-block;
-}
-
-.event-label-time h6 {
+.event-label-time h2, .event-label-time h4, .event-label-time h6 {
     display: inline-block;
 }
 

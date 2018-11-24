@@ -84,7 +84,7 @@ def event_edit(request, event: Event):
         if form.is_valid():
             event = form.save()
             messages.success(request, f'"{event.name}" has been updated')
-            return redirect('cast_events', slug=event.cast.slug)
+            return redirect('event_detail', pk=event.pk)
     else:
         form = EventForm(instance=event)
     return render(request, 'events/event_edit.html', {
