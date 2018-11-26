@@ -7,7 +7,7 @@
             {% if user.profile.photos.all|length > 0 %}
             <section>
                 {% include 'photos/include/photo_grid.html' with photos=user.profile.photos.all|slice:":6" col_size='col-6 col-sm-4' thumb_size='400x300' link_template='userprofile/include/grid_photo_link.html' %}
-                <a class="btn btn-primary" href="{% url 'user_photos' username=user.username %}">All Photos</a>
+                <a class="btn btn-primary" href="{% url 'user_photos' username=user.username %}"><i class="far fa-image"></i> All Photos</a>
             </section>
             {% endif %}
             {% if user.profile.member_casts.all|length > 0 %}

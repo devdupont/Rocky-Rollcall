@@ -35,6 +35,10 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
+            # Filter out users younger than 18
+            if form.user_age < 18:
+                messages.info(request, 'You must be at least 18 years old to sign up')
+                return redirect('landing_page')
             # Create a new, inactive user from form data
             user = form.save(commit=False)
             user.is_activate = False

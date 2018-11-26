@@ -2,11 +2,15 @@
 Models to build and manage User profiles and settings
 """
 
+# stdlib
+from datetime import date
+# django
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from sorl.thumbnail import ImageField
+# app
 from photos.models import PhotoBase
 
 def profile_image(instance, filename: str) -> str:
@@ -20,6 +24,13 @@ def user_photo(instance, filename: str) -> str:
     Generate cast logo filename from cast slug
     """
     return f"users/{instance.profile.user.username}/photos/{filename}"
+
+def age(born: date) -> int:
+    """
+    Returns how old a given date is as year int
+    """
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 class Profile(models.Model):
     """
@@ -65,6 +76,13 @@ class Profile(models.Model):
         Returns the desired display name for the user
         """
         return self.alt or self.full_name
+
+    @property
+    def age(self) -> int:
+        """
+        Returns the user's age as an int
+        """
+        return age(self.birth_date)
 
     def __str__(self) -> str:
         return self.name

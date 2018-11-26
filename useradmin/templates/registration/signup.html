@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% block headers %}
+{{ block.super }}
+{{ form.media }}
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-8">

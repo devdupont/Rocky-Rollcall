@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from bootstrap_datepicker_plus import DatePickerInput
 # app
 from photos.forms import PhotoForm
-from userprofile.models import Photo, Profile
+from userprofile.models import Photo, Profile, age
 
 class SignUpForm(UserCreationForm):
 
@@ -18,12 +18,14 @@ class SignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=30, required=True)
     alt = forms.CharField(
         max_length=128,
+        required=False,
         label='Display Name',
         help_text='Optional. If given, this will replace your first and last name on the site and in search'
     )
     birth_date = forms.DateField(
         widget=DatePickerInput(format='%Y-%m-%d'),
-        help_text='Required. Format: YYYY-MM-DD. Users under 18 will not appear in search. You must be 13+ to sign up'
+        required=True,
+        help_text='Required. Format: YYYY-MM-DD. You must be 18+ to sign up'
     )
 
     class Meta:
@@ -34,6 +36,13 @@ class SignUpForm(UserCreationForm):
             'last_name': 'Required',
             'email': 'Required. You will receive a validation email',
         }
+
+    @property
+    def user_age(self) -> int:
+        """
+        Returns the form user's age as an int
+        """
+        return age(self.cleaned_data['birth_date'])
 
 class EditUserForm(forms.ModelForm):
 
@@ -62,7 +71,7 @@ class EditProfileForm(forms.ModelForm):
             'twitter_user': 'Twitter @username. Ex: myself',
             'instagram_user': 'Instagram @username. Ex: myself',
             'show_email': 'Enabling this will make your email address visible on your public profile',
-            'searchable': 'Enabling this makes your profile information searchable. Must be 18+ to appear in search results',
+            'searchable': 'Enabling this makes your profile information searchable',
         }
 
 class UserPhotoForm(PhotoForm):
