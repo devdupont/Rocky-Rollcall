@@ -109,8 +109,9 @@ class Casting(models.Model):
     """
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='castings')
-    profile = models.ForeignKey('userprofile.Profile', on_delete=models.CASCADE, related_name='castings')
+    profile = models.ForeignKey('userprofile.Profile', blank=True, null=True, on_delete=models.CASCADE, related_name='castings')
     role = enum.EnumField(Role)
+    writein = models.CharField(max_length=64, blank=True, verbose_name='Write-In')
 
     class Meta:
         ordering = ['role']
@@ -125,6 +126,6 @@ class Casting(models.Model):
     @property
     def show_picture(self) -> bool:
         """
-        Returns True if the casting is a non-tech role
+        Returns True if the casting is a non-tech role with profile
         """
-        return self.role < 30
+        return self.profile and self.role < 30

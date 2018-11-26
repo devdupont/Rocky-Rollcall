@@ -10,7 +10,8 @@
     <div class="col">
         <h4>{{ casting.role_tag }}
         {% if casting.show_picture %}</h4><h4>{% else %} - {% endif %}
-        <a href="{% url 'user_profile' username=casting.profile.user.username %}">{{ casting.profile.name }}</a></h4>
+        {% if casting.writein %}{{ casting.writein }}{% else %}<a href="{% url 'user_profile' username=casting.profile.user.username %}">{{ casting.profile.name }}</a>{% endif %}
+        </h4>
         {% if form %}
         <a class="btn btn-danger" href="{% url 'casting_delete' pk=casting.pk %}" role="button"><i class="far fa-trash-alt"></i></a>
         {% endif %}

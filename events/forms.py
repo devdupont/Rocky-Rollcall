@@ -27,10 +27,27 @@ class CastingForm(forms.ModelForm):
 
     class Meta:
         model = Casting
-        fields = ('role', 'profile')
+        fields = ('role', 'profile', 'writein')
 
     def __init__(self, *args, **kwargs):
         cast = kwargs.pop('cast')
         super().__init__(*args, **kwargs)
         if cast:
             self.fields['profile'].queryset = cast.members.all()
+
+    def clean(self):
+        """
+        Validates form fields
+
+        Form must include a profile or write-in name to be valid
+        """
+        profile, writein = self.cleaned_data.get('profile'), self.cleaned_data.get('writein')
+        if profile:
+            self.cleaned_data['writein'] = ''
+        elif writein:
+            self.cleaned_data['profile'] = None
+        else:
+            msg = 'You must supply a cast member profile or a write-in name'
+            self.add_error('profile', msg)
+            self.add_error('writein', msg)
+        return self.cleaned_data
